@@ -1,14 +1,21 @@
 #include "mainwindow.h"
 
+/*  4 Fed
+ *  Need DB.h, DB.c with all QStringLists needed
+ *  Need Styles.h, Styles.c with fonts and sizes
+*/
+
 //ui setup
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 {
-    this->setGeometry(100, 100, 650, 350);
+    this->app = app;    //quit slot needed
+
+    QWidget *central = new QWidget();
+    QGridLayout *grid = new QGridLayout(this);
+    grid->setSpacing(20);
+    int grow=0, gcolumn=1;
 
     //load and scale house pixmap
-    enum { WHITE, RED, BLUE, GREEN, VIOLET };
-
-    //load images
     QStringList img_files;
     img_files << "C:/qtres/house_white.png" << "C:/qtres/house_red.png" << "C:/qtres/house_blue.png"
               << "C:/qtres/house_green.png" << "C:/qtres/house_violet.png" << "C:/qtres/house_blank.png";
@@ -17,13 +24,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
         pmap[i] = pmap[i].scaled(80, 80);
     }
 
-    //draw 5 houses
-    for(int i=0, x=houses_init_x, y=houses_init_y;
-        i<5;
-        i++, x+=houses_inc_x) {
+    //init 5 houses
+    for(int i=0; i<5; i++) {
         houses[i] = new QLabel(this);
-        houses[i]->setGeometry(x, y, houses_dim_x, houses_dim_y);
+        grid->addWidget(houses[i], grow, gcolumn++);
     }
+    grow=1;
+    gcolumn=0;
 
     //labels text and font
     QStringList label_text;
@@ -33,14 +40,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     f.setBold(true);
 
     //create and setup labels
-    for(int i=0, x=labels_init_x, y=labels_init_y;
-        i<5;
-        i++, y+=labels_inc_y) {
+    for(int i=0; i<5; i++) {
         labels[i] = new QLabel(this);
-        labels[i]->setGeometry(x, y, labels_dim_x, labels_dim_y);
         labels[i]->setFont(f);
         labels[i]->setText(label_text[i]);
         labels[i]->setAlignment(Qt::AlignRight);
+        grid->addWidget(labels[i], grow++, gcolumn);
     }
 
     //cells data
@@ -53,64 +58,53 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     cells_text[ANIMAL]      << "Cavallo" << "Maialino" << "Gallina" << "Criceto" << "Serpente";
 
     //create and setup cells
-    for(int i=0, y=cells_init_y;
-        i<5;
-        i++, y+=cells_inc_y) {
-        for(int j=0, x=cells_init_x;
-            j<5;
-            j++, x+=cells_inc_x) {
+    for(int i=0, grow=1; i<5; i++, grow++) {
+        for(int j=0, gcolumn=1; j<5; j++, gcolumn++) {
             cells[i][j] = new Cell(j, this);
-            cells[i][j]->setGeometry(x, y, cells_dim_x, cells_dim_y);
             cells[i][j]->addItems(cells_text[i]);
+            grid->addWidget(cells[i][j], grow, gcolumn);
         }
+        //conect top row cells (color related ones)
+        QObject::connect(cells[0][i], SIGNAL(color_index_changed(int,int)), this, SLOT(change_house_pixmap(int,int)));
     }
 
     //set blank house image and reset cells indexes
     this->clear();
 
-    //set up signals&slots for house color change
-    for(int i=0; i<5; i++)
-        QObject::connect(cells[0][i], SIGNAL(color_index_changed(int,int)), this, SLOT(change_house_pixmap(int,int)));
-
     //buttons
-    reload = new QPushButton(this);
-    reload->setGeometry(120, 280, 80, 40);
-    reload->setIcon(QIcon(QPixmap("C:/qtres/reload.png")));
-    reload->setIconSize(QSize(30, 30));
-    reload->setText("Clear");
-    QObject::connect(reload, SIGNAL(released()), this, SLOT(clear()));
+    QStringList button_labels, button_icon_files;
+    button_labels << "Clear" << "Indications" << "Check" << "Solve" << "Quit";
+    button_icon_files << "C:/qtres/reload.png" << "C:/qtres/info.png" << "C:/qtres/check.png"
+                      << "C:/qtres/solve.png" << "C:/qtres/exit.png";
 
-    indications = new QPushButton(this);
-    indications->setGeometry(220, 280, 100, 40);
-    indications->setIcon(QIcon(QPixmap("C:/qtres/info.png")));
-    indications->setIconSize(QSize(30, 30));
-    indications->setText("Indications");
+    grow=6, gcolumn=1;
 
-    check = new QPushButton(this);
-    check->setGeometry(340, 280, 80, 40);
-    check->setIcon(QIcon(QPixmap("C:/qtres/check.png")));
-    check->setIconSize(QSize(30,30));
-    check->setText("Check");
+    for(int i=0; i<5; i++) {
+        buttons[i] = new QPushButton(this);
+        buttons[i]->setIcon(QIcon(QPixmap(button_icon_files[i])));
+        buttons[i]->setIconSize(QSize(buttons_iconsize, buttons_iconsize));
+        buttons[i]->setText(button_labels[i]);
+        grid->addWidget(buttons[i], grow, gcolumn++);
+    }
 
-    solve = new QPushButton(this);
-    solve->setGeometry(440, 280, 80, 40);
-    solve->setIcon(QIcon(QPixmap("C:/qtres/solve.png")));
-    solve->setIconSize(QSize(30, 30));
-    solve->setText("Solve");
+    QObject::connect(buttons[RELOAD], SIGNAL(clicked()), this, SLOT(clear()));
+    QObject::connect(buttons[QUIT], SIGNAL(clicked()), app, SLOT(quit()));
 
-
+    central->setLayout(grid);
+    this->setCentralWidget(central);
 }
 
 MainWindow::~MainWindow()
 {
 }
 
+
 //SLOTS
 
 void MainWindow::clear() {
     for(int i=0; i<5; i++) {
         for(int j=0; j<5; j++) cells[i][j]->setCurrentIndex(-1);
-        houses[i]->setPixmap(pmap[5]);//blank one
+        houses[i]->setPixmap(pmap[5]);  //blank one
     }
 }
 
