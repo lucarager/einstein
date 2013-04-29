@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 
 /*  4 Fed
- *  Need DB.h, DB.c with all QStringLists needed
+ *  Need DB.h, DB.c with all QStringLists needed << load from XML
  *  Need Styles.h, Styles.c with fonts and sizes
 */
 
@@ -10,6 +10,9 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 {
     this->app = app;    //quit slot needed
 
+    this->setWindowTitle("Rainbow");
+    this->setWindowIcon(QIcon(QPixmap(":/images/appicon.png")));    //window & exe icon
+
     QWidget *central = new QWidget();
     QGridLayout *grid = new QGridLayout(this);
     grid->setSpacing(20);
@@ -17,8 +20,8 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 
     //load and scale house pixmap
     QStringList img_files;
-    img_files << "C:/qtres/house_white.png" << "C:/qtres/house_red.png" << "C:/qtres/house_blue.png"
-              << "C:/qtres/house_green.png" << "C:/qtres/house_violet.png" << "C:/qtres/house_blank.png";
+    img_files << ":/images/house_white.png" << ":/images/house_red.png" << ":/images/house_blue.png"
+              << ":/images/house_green.png" << ":/images/house_violet.png" << ":/images/house_blank.png";
     for(int i=0; i<6; i++) {
         pmap[i].load(img_files[i]);
         pmap[i] = pmap[i].scaled(80, 80);
@@ -74,8 +77,8 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     //buttons
     QStringList button_labels, button_icon_files;
     button_labels << "Clear" << "Indications" << "Check" << "Solve" << "Quit";
-    button_icon_files << "C:/qtres/reload.png" << "C:/qtres/info.png" << "C:/qtres/check.png"
-                      << "C:/qtres/solve.png" << "C:/qtres/exit.png";
+    button_icon_files << ":/images/reload.png" << ":/images/info.png" << ":/images/check.png"
+                      << ":/images/solve.png" << ":/images/exit.png";
 
     grow=6, gcolumn=1;
 
@@ -88,7 +91,10 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     }
 
     QObject::connect(buttons[RELOAD], SIGNAL(clicked()), this, SLOT(clear()));
+    QObject::connect(buttons[INDICATIONS], SIGNAL(clicked()), this, SLOT(spawn_indications_window()));
     QObject::connect(buttons[QUIT], SIGNAL(clicked()), app, SLOT(quit()));
+
+    indications_window_lock = false;
 
     central->setLayout(grid);
     this->setCentralWidget(central);
@@ -110,4 +116,19 @@ void MainWindow::clear() {
 
 void MainWindow::change_house_pixmap(int house_index, int pixmap_index) {
     houses[house_index]->setPixmap(pmap[pixmap_index]);
+}
+
+void MainWindow::spawn_indications_window() {
+    if(!this->indications_window_lock) {
+        this->indications_window = new Indications(this);
+        this->indications_window->show();
+
+        this->indications_window_lock = true;
+
+        QObject::connect(this->indications_window, SIGNAL(indications_window_closed()), this, SLOT(unlock_indications_window()));
+    }
+}
+
+void MainWindow::unlock_indications_window() {
+    this->indications_window_lock = false;
 }

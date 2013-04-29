@@ -13,10 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    cell.cpp
+    mainwindow.cpp \
+    cell.cpp \
+    indications.cpp
 
 HEADERS  += mainwindow.h \
-    cell.h
+    cell.h \
+    indications.h
 
-RESOURCES +=
+RESOURCES += \
+    resources.qrc

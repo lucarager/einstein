@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/appicon.png</file>
+        <file>images/check.png</file>
+        <file>images/exit.png</file>
+        <file>images/house_blank.png</file>
+        <file>images/house_blue.png</file>
+        <file>images/house_green.png</file>
+        <file>images/house_red.png</file>
+        <file>images/house_violet.png</file>
+        <file>images/house_white.png</file>
+        <file>images/info.png</file>
+        <file>images/reload.png</file>
+        <file>images/solve.png</file>
+    </qresource>
+</RCC>
