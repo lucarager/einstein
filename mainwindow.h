@@ -12,8 +12,10 @@
 #include <QPixmap>
 #include <QGridLayout>
 #include <QXmlStreamReader>
+#include <QMessageBox>
 #include "cell.h"
 #include "indications.h"
+#include "db.h"
 
 //pixmaps enum
 enum { WHITE, RED, BLUE, GREEN, VIOLET };
@@ -36,6 +38,8 @@ private slots:
 
 private:
     QApplication *app;
+
+    DB *db;
 
     QLabel *houses[5];
     QPixmap pmap[6];

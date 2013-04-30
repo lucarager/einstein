@@ -15,11 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
     mainwindow.cpp \
     cell.cpp \
-    indications.cpp
+    indications.cpp \
+    db.cpp \
+    ind_checkbox.cpp
 
 HEADERS  += mainwindow.h \
     cell.h \
-    indications.h
+    indications.h \
+    db.h \
+    ind_checkbox.h
 
 RESOURCES += \
     resources.qrc

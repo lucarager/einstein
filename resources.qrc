@@ -12,5 +12,6 @@
         <file>images/info.png</file>
         <file>images/reload.png</file>
         <file>images/solve.png</file>
+        <file>xml/db.xml</file>
     </qresource>
 </RCC>
