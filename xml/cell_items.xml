@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <data>
+<!--
+need ordered pros list coz labels and house img changer are still hardcoded
+we'll make the whole thing dynamical once implemented random cell matrix generator
+-->
+<props>
+    <bla>propcolori</bla>
+    <bla>proplenazionalita</bla>
+    <bla>propbevande</bla>
+    <bla>propsigarette</bla>
+    <bla>propanimali</bla>
+</props>
 <propcolori>
     <colore>blu</colore>
     <colore>verde</colore>

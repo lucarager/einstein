@@ -44,12 +44,10 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     }
 
     //create and setup cells
-    QString x;
     for(int i=0, grow=1; i<5; i++, grow++) {
         for(int j=0, gcolumn=1; j<5; j++, gcolumn++) {
             cells[i][j] = new Cell(j, this);
-            x = db->cell_items->keys().at(i);
-            cells[i][j]->addItems(*db->cell_items->value(x));
+            cells[i][j]->addItems(*db->cell_items->value(db->cell_items->value("props")->at(i)));
             grid->addWidget(cells[i][j], grow, gcolumn);
         }
         //conect top row cells (color related ones)
