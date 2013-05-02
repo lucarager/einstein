@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+<propcolori>
+    <colore>blu</colore>
+    <colore>verde</colore>
+    <colore>rosso</colore>
+    <colore>viola</colore>
+    <colore>bianco</colore>
+</propcolori>
+<proplenazionalita>
+    <nazionalita>russo</nazionalita>
+    <nazionalita>tedesco</nazionalita>
+    <nazionalita>italiano</nazionalita>
+    <nazionalita>alieno</nazionalita>
+    <nazionalita>montanaro</nazionalita>
+</proplenazionalita>
+<propbevande>
+    <bevanda>vodka</bevanda>
+    <bevanda>rum</bevanda>
+    <bevanda>whiskey</bevanda>
+    <bevanda>birra</bevanda>
+    <bevanda>assenzio</bevanda>
+</propbevande>
+<propsigarette>
+    <sigaretta>marlboro</sigaretta>
+    <sigaretta>pall-mall</sigaretta>
+    <sigaretta>diva</sigaretta>
+    <sigaretta>merith</sigaretta>
+    <sigaretta>camel</sigaretta>
+</propsigarette>
+<propanimali>
+    <animale>criceto</animale>
+    <animale>orso add.</animale>
+    <animale>hurricane</animale>
+    <animale>micio</animale>
+    <animale>scarafaggio</animale>
+</propanimali>
+</data>

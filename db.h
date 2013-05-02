@@ -7,15 +7,15 @@
 #include <QXmlStreamReader>
 #include <QMessageBox>
 
-class DB : public QObject {
-    Q_OBJECT
-
+class DB {
 public:
-    DB(QString dbfile, QObject *parent=0);
+    DB(QString itemsxml, QString guixml);
     ~DB();
 
-    //TODO: use hashtable or map to avoid manual indexing in mainwindow
-    QList<QStringList> properties;
+    void parseXML(QString xmlfile, QHash<QString, QStringList*>* &h);
+
+    QHash<QString, QStringList*> *cell_items;
+    QHash<QString, QStringList*> *gui_config;
 };
 
 #endif // DB_H

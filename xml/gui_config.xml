@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+<propmainwindowtitle>
+	<title>Einstein's Puzzle</title>
+</propmainwindowtitle>
+<propmainwindowicon>
+	<icon>:/images/appicon.png</icon>
+</propmainwindowicon>
+<proplabels>
+    <label>colore</label>
+    <label>nazionalità</label>
+    <label>bevanda</label>
+    <label>sigaretta</label>
+    <label>animale</label>
+</proplabels>
+<propblankhouseimg>
+	<img>:/images/house_blank.png</img>
+</propblankhouseimg>
+<prophouseimg>
+    <img>:/images/house_blue.png</img>
+    <img>:/images/house_green.png</img>
+    <img>:/images/house_red.png</img>
+    <img>:/images/house_violet.png</img>
+    <img>:/images/house_white.png</img>
+    <img>:/images/house_blank.png</img>
+</prophouseimg>
+<propbuttonimg>
+    <img>:/images/reload.png</img>
+    <img>:/images/info.png</img>
+    <img>:/images/check.png</img>
+    <img>:/images/solve.png</img>
+    <img>:/images/exit.png</img>
+</propbuttonimg>
+<propbuttonlabels>
+    <label>Clear</label>
+    <label>Indications</label>
+    <label>Check</label>
+    <label>Solve</label>
+    <label>Quit</label>
+</propbuttonlabels>
+</data>

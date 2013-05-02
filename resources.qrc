@@ -12,6 +12,7 @@
         <file>images/info.png</file>
         <file>images/reload.png</file>
         <file>images/solve.png</file>
-        <file>xml/db.xml</file>
+        <file>xml/cell_items.xml</file>
+        <file>xml/gui_config.xml</file>
     </qresource>
 </RCC>

@@ -5,10 +5,10 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 {
     this->app = app;    //quit slot needed
 
-    db = new DB(":/xml/db.xml", this);
+    db = new DB(":/xml/cell_items.xml", ":/xml/gui_config.xml");
 
-    this->setWindowTitle("Rainbow");
-    this->setWindowIcon(QIcon(QPixmap(":/images/appicon.png")));    //window & exe icon
+    this->setWindowTitle(db->gui_config->value("propmainwindowtitle")->at(0));
+    this->setWindowIcon(QIcon(QPixmap(db->gui_config->value("propmainwindowtitle")->at(0))));
 
     QWidget *central = new QWidget();
     QGridLayout *grid = new QGridLayout(this);
@@ -17,7 +17,7 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 
     //load and scale house pixmap
      for(int i=0; i<6; i++) {
-        pmap[i].load(this->db->properties[6].at(i));
+        pmap[i].load(this->db->gui_config->value("prophouseimg")->at(i));
         pmap[i] = pmap[i].scaled(80, 80);
     }
 
@@ -38,16 +38,18 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     for(int i=0; i<5; i++) {
         labels[i] = new QLabel(this);
         labels[i]->setFont(f);
-        labels[i]->setText(this->db->properties[0].at(i));
+        labels[i]->setText(db->gui_config->value("proplabels")->at(i));
         labels[i]->setAlignment(Qt::AlignRight);
         grid->addWidget(labels[i], grow++, gcolumn);
     }
 
     //create and setup cells
+    QString x;
     for(int i=0, grow=1; i<5; i++, grow++) {
         for(int j=0, gcolumn=1; j<5; j++, gcolumn++) {
             cells[i][j] = new Cell(j, this);
-            cells[i][j]->addItems(this->db->properties[i+1]);
+            x = db->cell_items->keys().at(i);
+            cells[i][j]->addItems(*db->cell_items->value(x));
             grid->addWidget(cells[i][j], grow, gcolumn);
         }
         //conect top row cells (color related ones)
@@ -62,9 +64,9 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 
     for(int i=0; i<5; i++) {
         buttons[i] = new QPushButton(this);
-        buttons[i]->setIcon(QIcon(QPixmap(this->db->properties[7].at(i))));
+        buttons[i]->setIcon(QIcon(QPixmap(this->db->gui_config->value("propbuttonimg")->at(i))));
         buttons[i]->setIconSize(QSize(buttons_iconsize, buttons_iconsize));
-        buttons[i]->setText(this->db->properties[8].at(i));
+        buttons[i]->setText(this->db->gui_config->value("propbuttonlabels")->at(i));
         grid->addWidget(buttons[i], grow, gcolumn++);
     }
 
@@ -88,7 +90,9 @@ MainWindow::~MainWindow()
 void MainWindow::clear() {
     for(int i=0; i<5; i++) {
         for(int j=0; j<5; j++) cells[i][j]->setCurrentIndex(-1);
-        houses[i]->setPixmap(pmap[5]);  //blank one
+        QPixmap p = QPixmap(db->gui_config->value("propblankhouseimg")->at(0));
+        p = p.scaled(80, 80);
+        houses[i]->setPixmap(p);  //blank one
     }
 
     if(this->indications_window) this->indications_window->clear();
@@ -101,7 +105,6 @@ void MainWindow::change_house_pixmap(int house_index, int pixmap_index) {
 void MainWindow::spawn_indications_window() {
     if(!this->indications_window_lock) {
         this->indications_window = new Indications(this);
-        //this->indications_window->move(this->x() - indications_window->frameGeometry().width(), this->y());
         this->indications_window->show();
         this->indications_window_lock = true;
 
