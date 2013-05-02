@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui console
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,15 +15,17 @@ TEMPLATE = app
 SOURCES += main.cpp\
     mainwindow.cpp \
     cell.cpp \
-    indications.cpp \
     db.cpp \
-    ind_checkbox.cpp
+    ind_checkbox.cpp \
+    clues.cpp \
+    table.cpp
 
 HEADERS  += mainwindow.h \
     cell.h \
-    indications.h \
     db.h \
-    ind_checkbox.h
+    ind_checkbox.h \
+    table.h \
+    clues.h
 
 RESOURCES += \
     resources.qrc

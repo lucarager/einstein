@@ -3,7 +3,6 @@
 DB::DB(QString itemsxml, QString guixml) {
     this->parseXML(itemsxml, cell_items);
     this->parseXML(guixml, gui_config);
-    qDebug(QString::number(gui_config->size()).toLatin1().data());
 }
 
 DB::~DB() {

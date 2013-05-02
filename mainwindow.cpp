@@ -69,13 +69,17 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     }
 
     QObject::connect(buttons[RELOAD], SIGNAL(clicked()), this, SLOT(clear()));
-    QObject::connect(buttons[INDICATIONS], SIGNAL(clicked()), this, SLOT(spawn_indications_window()));
+    QObject::connect(buttons[INDICATIONS], SIGNAL(clicked()), this, SLOT(spawn_clues_window()));
     QObject::connect(buttons[QUIT], SIGNAL(clicked()), app, SLOT(quit()));
 
-    indications_window_lock = false;
+    clues_window_lock = false;
 
     central->setLayout(grid);
     this->setCentralWidget(central);
+
+
+    //only for DEBUG purposes, table class is only being tested...
+    Table t(this->db);
 }
 
 MainWindow::~MainWindow()
@@ -93,23 +97,23 @@ void MainWindow::clear() {
         houses[i]->setPixmap(p);  //blank one
     }
 
-    if(this->indications_window) this->indications_window->clear();
+    if(this->clues_window) this->clues_window->clear();
 }
 
 void MainWindow::change_house_pixmap(int house_index, int pixmap_index) {
     houses[house_index]->setPixmap(pmap[pixmap_index]);
 }
 
-void MainWindow::spawn_indications_window() {
-    if(!this->indications_window_lock) {
-        this->indications_window = new Indications(this);
-        this->indications_window->show();
-        this->indications_window_lock = true;
+void MainWindow::spawn_clues_window() {
+    if(!this->clues_window_lock) {
+        this->clues_window = new CluesWindow(this);
+        this->clues_window->show();
+        this->clues_window_lock = true;
 
-        QObject::connect(this->indications_window, SIGNAL(indications_window_closed()), this, SLOT(unlock_indications_window()));
+        QObject::connect(this->clues_window, SIGNAL(clues_window_closed()), this, SLOT(unlock_clues_window()));
     }
 }
 
-void MainWindow::unlock_indications_window() {
-    this->indications_window_lock = false;
+void MainWindow::unlock_clues_window() {
+    this->clues_window_lock = false;
 }
