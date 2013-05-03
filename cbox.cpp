@@ -1,4 +1,4 @@
-#include "cell.h"
+#include "cbox.h"
 
 Cell::Cell(int cell_index, QWidget *parent) : QComboBox(parent) {
     this->cell_index = cell_index;

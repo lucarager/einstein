@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <data>
 <!--
-need ordered pros list coz labels and house img changer are still hardcoded
-we'll make the whole thing dynamical once implemented random cell matrix generator
+xml spec:
+<prop name="property_name" verb="property_verb">
+    <i>item1</i>
+    <i>item2</i>
+    <i>item3</i>
+</prop>
 -->
-<props>
-    <bla>propcolori</bla>
-    <bla>proplenazionalita</bla>
-    <bla>propbevande</bla>
-    <bla>propsigarette</bla>
-    <bla>propanimali</bla>
-</props>
-<propcolori>
-    <colore>blu</colore>
-    <colore>verde</colore>
-    <colore>rosso</colore>
-    <colore>viola</colore>
-    <colore>bianco</colore>
-</propcolori>
-<proplenazionalita>
-    <nazionalita>russo</nazionalita>
-    <nazionalita>tedesco</nazionalita>
-    <nazionalita>italiano</nazionalita>
-    <nazionalita>alieno</nazionalita>
-    <nazionalita>montanaro</nazionalita>
-</proplenazionalita>
-<propbevande>
-    <bevanda>vodka</bevanda>
-    <bevanda>rum</bevanda>
-    <bevanda>whiskey</bevanda>
-    <bevanda>birra</bevanda>
-    <bevanda>assenzio</bevanda>
-</propbevande>
-<propsigarette>
-    <sigaretta>marlboro</sigaretta>
-    <sigaretta>pall-mall</sigaretta>
-    <sigaretta>diva</sigaretta>
-    <sigaretta>merith</sigaretta>
-    <sigaretta>camel</sigaretta>
-</propsigarette>
-<propanimali>
-    <animale>criceto</animale>
-    <animale>orso add.</animale>
-    <animale>hurricane</animale>
-    <animale>micio</animale>
-    <animale>scarafaggio</animale>
-</propanimali>
+<prop name="colore" verb="e'">
+    <i>blu</i>
+    <i>verde</i>
+    <i>rosso</i>
+    <i>viola</i>
+    <i>bianco</i>
+</prop>
+<prop name="nazionalita'" verb="e'">
+    <i>russo</i>
+    <i>tedesco</i>
+    <i>italiano</i>
+    <i>alieno</i>
+    <i>montanaro</i>
+</prop>
+<prop name="bevanda" verb="beve">
+    <i>vodka</i>
+    <i>rum</i>
+    <i>whiskey</i>
+    <i>birra</i>
+    <i>assenzio</i>
+</prop>
+<prop name="sigarette" verb="fuma">
+    <i>marlboro</i>
+    <i>pall-mall</i>
+    <i>diva</i>
+    <i>merith</i>
+    <i>camel</i>
+</prop>
+<prop name="animale" verb="ha">
+    <i>criceto</i>
+    <i>orso add.</i>
+    <i>hurricane</i>
+    <i>micio</i>
+    <i>scarafaggio</i>
+</prop>
+<prop name="OS" verb="usa">
+    <i>Windows</i>
+    <i>Linux</i>
+    <i>BSD</i>
+    <i>Solaris</i>
+    <i>NextStep</i>
+    <i>DOS</i>
+    <i>HP-UX</i>
+    <i>IOS</i>
+    <i>Android</i>
+</prop>
 </data>

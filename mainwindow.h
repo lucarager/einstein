@@ -13,7 +13,7 @@
 #include <QGridLayout>
 #include <QXmlStreamReader>
 #include <QMessageBox>
-#include "cell.h"
+#include "cbox.h"
 #include "clues.h"
 #include "db.h"
 #include "table.h"
@@ -44,6 +44,7 @@ private:
 
     QLabel *houses[5];
     QPixmap pmap[6];
+    QPixmap pmap_blank;
 
     QLabel *labels[5];
 

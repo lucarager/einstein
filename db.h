@@ -6,16 +6,18 @@
 #include <QFile>
 #include <QXmlStreamReader>
 #include <QMessageBox>
+#include <QList>
+#include "tablecell.h"
 
 class DB {
 public:
     DB(QString itemsxml, QString guixml);
     ~DB();
 
-    void parseXML(QString xmlfile, QHash<QString, QStringList*>* &h);
+    void parseXML(QString xmlfile, QHash<QString, QList<TableCell>*>* &h);
 
-    QHash<QString, QStringList*> *cell_items;
-    QHash<QString, QStringList*> *gui_config;
+    QHash<QString, QList<TableCell>*> *cell_items;
+    QHash<QString, QList<TableCell>*> *gui_config;
 };
 
 #endif // DB_H

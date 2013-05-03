@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <data>
-<propmainwindowtitle>
-	<title>Einstein's Puzzle</title>
-</propmainwindowtitle>
-<propmainwindowicon>
-	<icon>:/images/appicon.png</icon>
-</propmainwindowicon>
-<proplabels>
-    <label>colore</label>
-    <label>nazionalità</label>
-    <label>bevanda</label>
-    <label>sigaretta</label>
-    <label>animale</label>
-</proplabels>
-<propblankhouseimg>
-	<img>:/images/house_blank.png</img>
-</propblankhouseimg>
-<prophouseimg>
-    <img>:/images/house_blue.png</img>
-    <img>:/images/house_green.png</img>
-    <img>:/images/house_red.png</img>
-    <img>:/images/house_violet.png</img>
-    <img>:/images/house_white.png</img>
-    <img>:/images/house_blank.png</img>
-</prophouseimg>
-<propbuttonimg>
-    <img>:/images/reload.png</img>
-    <img>:/images/info.png</img>
-    <img>:/images/check.png</img>
-    <img>:/images/solve.png</img>
-    <img>:/images/exit.png</img>
-</propbuttonimg>
-<propbuttonlabels>
-    <label>Clear</label>
-    <label>Indications</label>
-    <label>Check</label>
-    <label>Solve</label>
-    <label>Quit</label>
-</propbuttonlabels>
+    <!--
+        control if "verb" attribute exists
+    -->
+<prop name="mainwindowtitle">
+	<i>Einstein's Puzzle</i>
+</prop>
+<prop name="mainwindowicon">
+	<i>:/images/appicon.png</i>
+</prop>
+<prop name="labels">
+    <i>colore</i>
+    <i>nazionalità</i>
+    <i>bevanda</i>
+    <i>sigaretta</i>
+    <i>animale</i>
+</prop>
+<prop name="blankhouseimg">
+	<i>:/images/house_blank.png</i>
+</prop>
+<prop name="houseimg">
+    <i>:/images/house_blue.png</i>
+    <i>:/images/house_green.png</i>
+    <i>:/images/house_red.png</i>
+    <i>:/images/house_violet.png</i>
+    <i>:/images/house_white.png</i>
+    <i>:/images/house_blank.png</i>
+</prop>
+<prop name="buttonimg">
+    <i>:/images/reload.png</i>
+    <i>:/images/info.png</i>
+    <i>:/images/check.png</i>
+    <i>:/images/solve.png</i>
+    <i>:/images/exit.png</i>
+</prop>
+<prop name="buttonlabels">
+    <i>Clear</i>
+    <i>Indications</i>
+    <i>Check</i>
+    <i>Solve</i>
+    <i>Quit</i>
+</prop>
 </data>

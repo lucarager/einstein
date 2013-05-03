@@ -7,8 +7,10 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 
     db = new DB(":/xml/cell_items.xml", ":/xml/gui_config.xml");
 
-    this->setWindowTitle(db->gui_config->value("propmainwindowtitle")->at(0));
-    this->setWindowIcon(QIcon(QPixmap(db->gui_config->value("propmainwindowtitle")->at(0))));
+    Table t(this->db);
+
+    this->setWindowTitle(db->gui_config->value("mainwindowtitle")->at(0).answer);
+    this->setWindowIcon(QIcon(QPixmap(db->gui_config->value("mainwindowicon")->at(0).answer)));
 
     QWidget *central = new QWidget();
     QGridLayout *grid = new QGridLayout(this);
@@ -17,9 +19,12 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 
     //load and scale house pixmap
      for(int i=0; i<6; i++) {
-        pmap[i].load(this->db->gui_config->value("prophouseimg")->at(i));
+        pmap[i].load(this->db->gui_config->value("houseimg")->at(i).answer);
         pmap[i] = pmap[i].scaled(80, 80);
     }
+     //blank house pixmap
+     pmap_blank.load(this->db->gui_config->value("blankhouseimg")->at(0).answer);
+     pmap_blank = pmap_blank.scaled(80, 80);
 
     //init 5 houses
     for(int i=0; i<5; i++) {
@@ -38,33 +43,33 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     for(int i=0; i<5; i++) {
         labels[i] = new QLabel(this);
         labels[i]->setFont(f);
-        labels[i]->setText(db->gui_config->value("proplabels")->at(i));
+        labels[i]->setText(t.table[i][0].answertype);
         labels[i]->setAlignment(Qt::AlignRight);
         grid->addWidget(labels[i], grow++, gcolumn);
     }
 
     //create and setup cells
+    QList<TableCell> l;
     for(int i=0, grow=1; i<5; i++, grow++) {
         for(int j=0, gcolumn=1; j<5; j++, gcolumn++) {
             cells[i][j] = new Cell(j, this);
-            cells[i][j]->addItems(*db->cell_items->value(db->cell_items->value("props")->at(i)));
+            cells[i][j]->addItems(t.rowstext[i]);
             grid->addWidget(cells[i][j], grow, gcolumn);
-        }
-        //conect top row cells (color related ones)
-        QObject::connect(cells[0][i], SIGNAL(color_index_changed(int,int)), this, SLOT(change_house_pixmap(int,int)));
-    }
 
-    //set blank house image and reset cells indexes
-    this->clear();
+            //conect top row cells (color related ones)
+            if(t.table[i][0].answertype == "colore")
+            QObject::connect(cells[i][j], SIGNAL(color_index_changed(int,int)), this, SLOT(change_house_pixmap(int,int)));
+        }
+    }
 
     //buttons
     grow=6, gcolumn=1;
 
     for(int i=0; i<5; i++) {
         buttons[i] = new QPushButton(this);
-        buttons[i]->setIcon(QIcon(QPixmap(this->db->gui_config->value("propbuttonimg")->at(i))));
+        buttons[i]->setIcon(QIcon(QPixmap(this->db->gui_config->value("buttonimg")->at(i).answer)));
         buttons[i]->setIconSize(QSize(buttons_iconsize, buttons_iconsize));
-        buttons[i]->setText(this->db->gui_config->value("propbuttonlabels")->at(i));
+        buttons[i]->setText(this->db->gui_config->value("buttonlabels")->at(i).answer);
         grid->addWidget(buttons[i], grow, gcolumn++);
     }
 
@@ -77,9 +82,8 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     central->setLayout(grid);
     this->setCentralWidget(central);
 
-
-    //only for DEBUG purposes, table class is only being tested...
-    Table t(this->db);
+    //set blank house image and reset cells indexes
+    this->clear();
 }
 
 MainWindow::~MainWindow()
@@ -87,14 +91,15 @@ MainWindow::~MainWindow()
 }
 
 
+
 //SLOTS
 
 void MainWindow::clear() {
+
     for(int i=0; i<5; i++) {
         for(int j=0; j<5; j++) cells[i][j]->setCurrentIndex(-1);
-        QPixmap p = QPixmap(db->gui_config->value("propblankhouseimg")->at(0));
-        p = p.scaled(80, 80);
-        houses[i]->setPixmap(p);  //blank one
+        houses[i]->setPixmap(pmap_blank);  //blank one
+        if(houses[i]->pixmap()->cacheKey() != pmap_blank.cacheKey()) qDebug("WRONG");
     }
 
     if(this->clues_window) this->clues_window->clear();

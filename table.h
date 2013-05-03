@@ -6,36 +6,27 @@
 #include <QDate>
 #include <QStringList>
 #include "db.h"
-
-struct TableCell {
-    bool referenced;
-    bool deducable;
-    int col;
-    QString answer;
-    QString aswertype;
-    QString verb;
-};
+#include "tablecell.h"
 
 class Table {
 public:
     Table(DB *db);
     ~Table();
 
-private:
-    DB *db;
+    QStringList rowstext[5]; //used to fill comboboxes
     TableCell table[5][5];          //used to generate clues and check for the right answers
-    QStringList finalproperties[5]; //used to fill comboboxes
 
-    void generateRandomTableFromDB();
-    void generateClues();
+    bool check(QString **answers);
+    QString **solve();
 
     TableCell *getRandomUnreferencedCellInRow(int row);
     TableCell *getRandomReferencedCellInRow(int row);
 
-    QStringList getCellStringList(int row);
+private:
+    DB *db;
 
-    bool check(QString **answers);
-    QString **solve();
+    void generateRandomTableFromDB();
+    void generateClues();
 };
 
 #endif // TABLE_H

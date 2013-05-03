@@ -4,6 +4,7 @@
 Table::Table(DB *db) {
     this->db = db;
 
+qDebug("Generating random table");
     this->generateRandomTableFromDB();
 }
 
@@ -21,29 +22,42 @@ void Table::generateRandomTableFromDB() {
     qsrand(date.year() + date.month() + date.day() + time.hour() + time.minute() + time.second());
 
     //random selection of 5 properties from DB
-    QStringList *fiveprops[5];
+    QList<TableCell> *rows[5];
+    QList<TableCell> finalrows[5];
     QList<int> used;
     int rndindex;
 
+qDebug("selecting 5 properties from DB");
     for(int i=0; i<5; i++) {
-        while(used.contains(rndindex = qrand()%5)) ;
+        while(used.contains(rndindex = qrand() % db->cell_items->size()));
         used << rndindex;
-        fiveprops[i] = db->cell_items->value(db->cell_items->keys().at(rndindex));
+        rows[i] = db->cell_items->value(db->cell_items->keys().at(rndindex));
     }
 
+qDebug("selecting 5 item for each property");
+    //random selection of 5 items for each of 5 selected properties
     for(int i=0; i<5; i++) {
         used.clear();
         for(int j=0; j<5; j++) {
-            while(used.contains(rndindex = qrand()%5)) ;
+            while(used.contains(rndindex = qrand() % rows[i]->size())) ;
             used << rndindex;
-            finalproperties[i] << fiveprops[i]->at(rndindex);
+            finalrows[i] << rows[i]->at(rndindex);
+            rowstext[i] << rows[i]->at(j).answer;
         }
     }
 
-
+    //random table construction
     for(int i=0; i<5; i++) {
+        used.clear();
         for(int j=0; j<5; j++) {
-            this->table[i][j].answer = finalproperties[i].at(j);
+            while(used.contains(rndindex = qrand() % 5));
+            used << rndindex;
+            table[i][j].answer = finalrows[i].at(rndindex).answer;
+            table[i][j].answertype = finalrows[i].at(rndindex).answertype;
+            table[i][j].verb = finalrows[i].at(rndindex).verb;
+            table[i][j].col = j;
+            table[i][j].referenced = false;
+            table[i][j].deducable = true;
             //TODO: in order to init aother cell properties as cell.answertype and cell.verb
             //need to modify parser class and XML structure
         }
@@ -75,11 +89,6 @@ TableCell* Table::getRandomUnreferencedCellInRow(int row) {
 TableCell* Table::getRandomReferencedCellInRow(int row) {
     row;
     return NULL;
-}
-
-QStringList Table::getCellStringList(int row) { //returns strings in order to be able to fill comboboxes
-    QStringList dummy;
-    return dummy;
 }
 
 bool Table::check(QString **answers) {  //compares user's answers to the right ones
