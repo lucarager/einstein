@@ -8,40 +8,40 @@ xml spec:
     <i>item3</i>
 </prop>
 -->
-<prop name="colore" verb="e'">
-    <i>blu</i>
-    <i>verde</i>
-    <i>rosso</i>
-    <i>viola</i>
-    <i>bianco</i>
+<prop name="Colore" verb="e'">
+    <i>Blu</i>
+    <i>Verde</i>
+    <i>Rosso</i>
+    <i>Viola</i>
+    <i>Bianco</i>
 </prop>
-<prop name="nazionalita'" verb="e'">
-    <i>russo</i>
-    <i>tedesco</i>
-    <i>italiano</i>
-    <i>alieno</i>
-    <i>montanaro</i>
+<prop name="Nazionalita'" verb="e'">
+    <i>Russo</i>
+    <i>Tedesco</i>
+    <i>Italiano</i>
+    <i>Alieno</i>
+    <i>Montanaro</i>
 </prop>
-<prop name="bevanda" verb="beve">
-    <i>vodka</i>
-    <i>rum</i>
-    <i>whiskey</i>
-    <i>birra</i>
-    <i>assenzio</i>
+<prop name="Bevanda" verb="beve">
+    <i>Vodka</i>
+    <i>Rum</i>
+    <i>Whiskey</i>
+    <i>Birra</i>
+    <i>Assenzio</i>
 </prop>
-<prop name="sigarette" verb="fuma">
-    <i>marlboro</i>
-    <i>pall-mall</i>
-    <i>diva</i>
-    <i>merith</i>
-    <i>camel</i>
+<prop name="Sigarette" verb="fuma">
+    <i>Marlboro</i>
+    <i>Pall-mall</i>
+    <i>Diva</i>
+    <i>Merith</i>
+    <i>Camel</i>
 </prop>
-<prop name="animale" verb="ha">
-    <i>criceto</i>
-    <i>orso add.</i>
-    <i>hurricane</i>
-    <i>micio</i>
-    <i>scarafaggio</i>
+<prop name="Animale" verb="ha">
+    <i>Criceto</i>
+    <i>Orso add.</i>
+    <i>Hurricane</i>
+    <i>Micio</i>
+    <i>Scarafaggio</i>
 </prop>
 <prop name="OS" verb="usa">
     <i>Windows</i>

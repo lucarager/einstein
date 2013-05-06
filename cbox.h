@@ -3,12 +3,12 @@
 
 #include <QComboBox>
 
-class Cell : public QComboBox {
+class CBox : public QComboBox {
     Q_OBJECT
 
 public:
-    Cell(int cell_index, QWidget *parent=0);
-    ~Cell();
+    CBox(int cell_index, QWidget *parent=0);
+    ~CBox();
 
 private slots:
     void signal_caller(int cur_index);

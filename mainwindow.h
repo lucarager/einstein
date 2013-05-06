@@ -48,7 +48,7 @@ private:
 
     QLabel *labels[5];
 
-    Cell *cells[5][5];
+    CBox *cells[5][5];
 
     static const int buttons_iconsize=30;
     QPushButton *buttons[5];

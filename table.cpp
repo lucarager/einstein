@@ -13,7 +13,7 @@ Table::~Table() {
 }
 
 void Table::generateRandomTableFromDB() {
-    //FOR DEBUGGIN INFO
+    //FOR DEBUGGING INFO
     QMessageBox m;
 
     //random seed
@@ -26,9 +26,17 @@ void Table::generateRandomTableFromDB() {
     QList<TableCell> finalrows[5];
     QList<int> used;
     int rndindex;
-
-qDebug("selecting 5 properties from DB");
-    for(int i=0; i<5; i++) {
+/*
+ *  Nationalita' + colore hardcoded
+ *  + 3 random properties
+ *
+ *  Select 5 properties from db
+ */
+    rows[0] = db->cell_items->value("nazionalita'");
+    rows[1] = db->cell_items->value("colore");
+    used << db->cell_items->keys().indexOf("nazionalita'")
+         << db->cell_items->keys().indexOf("colore");
+    for(int i=2; i<5; i++) {
         while(used.contains(rndindex = qrand() % db->cell_items->size()));
         used << rndindex;
         rows[i] = db->cell_items->value(db->cell_items->keys().at(rndindex));

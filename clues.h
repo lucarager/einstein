@@ -8,7 +8,7 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include "ind_checkbox.h"
+#include "clue_checkbox.h"
 
 class CluesWindow : public QMainWindow {
     Q_OBJECT
