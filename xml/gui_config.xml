@@ -9,6 +9,13 @@
 <prop name="mainwindowicon">
 	<i>:/images/appicon.png</i>
 </prop>
+<prop name="labels">
+    <i>colore</i>
+    <i>nazionalità</i>
+    <i>bevanda</i>
+    <i>sigaretta</i>
+    <i>animale</i>
+</prop>
 <prop name="blankhouseimg">
 	<i>:/images/house_blank.png</i>
 </prop>
@@ -28,10 +35,10 @@
     <i>:/images/exit.png</i>
 </prop>
 <prop name="buttonlabels">
-    <i>Resetta</i>
-    <i>Indizi</i>
-    <i>Confronta</i>
-    <i>Risolvi</i>
-    <i>Esci</i>
+    <i>Clear</i>
+    <i>Indications</i>
+    <i>Check</i>
+    <i>Solve</i>
+    <i>Quit</i>
 </prop>
 </data>

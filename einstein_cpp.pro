@@ -15,18 +15,18 @@ TEMPLATE = app
 SOURCES += main.cpp\
     mainwindow.cpp \
     db.cpp \
+    ind_checkbox.cpp \
     clues.cpp \
     table.cpp \
-    cbox.cpp \
-    clue_checkbox.cpp
+    cbox.cpp
 
 HEADERS  += mainwindow.h \
     db.h \
+    ind_checkbox.h \
     table.h \
     clues.h \
     cbox.h \
-    tablecell.h \
-    clue_checkbox.h
+    tablecell.h
 
 RESOURCES += \
     resources.qrc

@@ -52,7 +52,7 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     QList<TableCell> l;
     for(int i=0, grow=1; i<5; i++, grow++) {
         for(int j=0, gcolumn=1; j<5; j++, gcolumn++) {
-            cells[i][j] = new CBox(j, this);
+            cells[i][j] = new Cell(j, this);
             cells[i][j]->addItems(t.rowstext[i]);
             grid->addWidget(cells[i][j], grow, gcolumn);
 
