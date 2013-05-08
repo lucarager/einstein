@@ -4,7 +4,6 @@
 Table::Table(DB *db) {
     this->db = db;
 
-qDebug("Generating random table");
     this->generateRandomTableFromDB();
 }
 
@@ -13,7 +12,7 @@ Table::~Table() {
 }
 
 void Table::generateRandomTableFromDB() {
-    //FOR DEBUGGIN INFO
+    //FOR DEBUGGING INFO
     QMessageBox m;
 
     //random seed
@@ -23,52 +22,46 @@ void Table::generateRandomTableFromDB() {
 
     //random selection of 5 properties from DB
     QList<TableCell> *rows[5];
-    QList<TableCell> finalrows[5];
     QList<int> used;
     int rndindex;
-
-qDebug("selecting 5 properties from DB");
-    for(int i=0; i<5; i++) {
+/*
+ *  Nationalita' + colore hardcoded
+ *  + 3 random properties
+ *
+ *  Select 5 properties from db
+ */
+    rows[0] = db->cell_items->value("Nazionalita'");
+    rows[1] = db->cell_items->value("Colore");
+    used << db->cell_items->keys().indexOf("Nazionalita'")
+         << db->cell_items->keys().indexOf("Colore");
+    for(int i=2; i<5; i++) {
         while(used.contains(rndindex = qrand() % db->cell_items->size()));
         used << rndindex;
         rows[i] = db->cell_items->value(db->cell_items->keys().at(rndindex));
     }
 
-qDebug("selecting 5 item for each property");
     //random selection of 5 items for each of 5 selected properties
+    //and random table construction
     for(int i=0; i<5; i++) {
         used.clear();
         for(int j=0; j<5; j++) {
             while(used.contains(rndindex = qrand() % rows[i]->size())) ;
             used << rndindex;
-            finalrows[i] << rows[i]->at(rndindex);
+
+            table[i][j].answer = rows[i]->at(rndindex).answer;
+            table[i][j].answertype = rows[i]->at(rndindex).answertype;
+            table[i][j].verb = rows[i]->at(rndindex).verb;
+            table[i][j].col = j;
+            table[i][j].referenced = false;
+            table[i][j].deducable = true;
+
             rowstext[i] << rows[i]->at(j).answer;
         }
     }
 
-    //random table construction
-    for(int i=0; i<5; i++) {
-        used.clear();
-        for(int j=0; j<5; j++) {
-            while(used.contains(rndindex = qrand() % 5));
-            used << rndindex;
-            table[i][j].answer = finalrows[i].at(rndindex).answer;
-            table[i][j].answertype = finalrows[i].at(rndindex).answertype;
-            table[i][j].verb = finalrows[i].at(rndindex).verb;
-            table[i][j].col = j;
-            table[i][j].referenced = false;
-            table[i][j].deducable = true;
-            //TODO: in order to init aother cell properties as cell.answertype and cell.verb
-            //need to modify parser class and XML structure
-        }
-    }
-
-    //
-    m.setText("visualizing generated matrix");
-    m.exec();
     //DEBUG purposes: visualize generated matrix, it's NOT yet used in the UI construction
     QMessageBox box;
-    QString msg;
+    QString msg = "\t-=[ Right Answers]=-\n\n";
     for(int i=0; i<5; i++) {
         for(int j=0; j<5; j++) msg += table[i][j].answer + " ";
         msg += "\n";
@@ -91,9 +84,13 @@ TableCell* Table::getRandomReferencedCellInRow(int row) {
     return NULL;
 }
 
-bool Table::check(QString **answers) {  //compares user's answers to the right ones
-    answers;
-    return false;
+bool Table::check(QString answers[5][5]) {  //compares user's answers to the right ones
+    for(int i=0; i<5; i++) {
+        for(int j=0; j<5; j++) {
+            if(answers[i][j] != this->table[i][j].answer) return false;
+        }
+    }
+    return true;
 }
 
 QString** Table::solve() {  //returns array of correct answers (strings)
