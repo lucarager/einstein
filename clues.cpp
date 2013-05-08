@@ -43,7 +43,6 @@ void CluesWindow::strike_out(int index, bool strikeout) {
 }
 
 void CluesWindow::clear() {
-    for(int i=0; i<15; i++) {
+    for(int i=0; i<15; i++)
         this->checks[i]->setChecked(false);
-    }
 }
