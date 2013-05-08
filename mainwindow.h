@@ -13,7 +13,6 @@
 #include <QGridLayout>
 #include <QXmlStreamReader>
 #include <QMessageBox>
-#include <QTimer>
 #include "cbox.h"
 #include "clues.h"
 #include "db.h"
@@ -37,13 +36,11 @@ private slots:
     void change_house_pixmap(int house_index, int pixmap_index);
     void spawn_clues_window();
     void unlock_clues_window();
-    void send_to_check();
 
 private:
     QApplication *app;
 
     DB *db;
-    Table *t;
 
     QLabel *houses[5];
     QPixmap pmap[6];

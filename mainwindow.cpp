@@ -6,7 +6,8 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     this->app = app;    //quit slot needed
 
     db = new DB(":/xml/cell_items.xml", ":/xml/gui_config.xml");
-    t = new Table(this->db);
+
+    Table t(this->db);
 
     this->setWindowTitle(db->gui_config->value("mainwindowtitle")->at(0).answer);
     this->setWindowIcon(QIcon(QPixmap(db->gui_config->value("mainwindowicon")->at(0).answer)));
@@ -30,7 +31,6 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
         houses[i] = new QLabel(this);
         grid->addWidget(houses[i], grow, gcolumn++);
     }
-
     grow=1;
     gcolumn=0;
 
@@ -43,7 +43,7 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     for(int i=0; i<5; i++) {
         labels[i] = new QLabel(this);
         labels[i]->setFont(f);
-        labels[i]->setText(t->table[i][0].answertype);
+        labels[i]->setText(t.table[i][0].answertype);
         labels[i]->setAlignment(Qt::AlignRight);
         grid->addWidget(labels[i], grow++, gcolumn);
     }
@@ -53,12 +53,12 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     for(int i=0, grow=1; i<5; i++, grow++) {
         for(int j=0, gcolumn=1; j<5; j++, gcolumn++) {
             cells[i][j] = new CBox(j, this);
-            cells[i][j]->addItems(t->rowstext[i]);
+            cells[i][j]->addItems(t.rowstext[i]);
             grid->addWidget(cells[i][j], grow, gcolumn);
 
             //conect top row cells (color related ones)
-            if(t->table[i][0].answertype == "Colore")
-                QObject::connect(cells[i][j], SIGNAL(color_index_changed(int,int)), this, SLOT(change_house_pixmap(int,int)));
+            if(t.table[i][0].answertype == "colore")
+            QObject::connect(cells[i][j], SIGNAL(color_index_changed(int,int)), this, SLOT(change_house_pixmap(int,int)));
         }
     }
 
@@ -76,7 +76,6 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     QObject::connect(buttons[RELOAD], SIGNAL(clicked()), this, SLOT(clear()));
     QObject::connect(buttons[INDICATIONS], SIGNAL(clicked()), this, SLOT(spawn_clues_window()));
     QObject::connect(buttons[QUIT], SIGNAL(clicked()), app, SLOT(quit()));
-    QObject::connect(buttons[CHECK], SIGNAL(clicked()), this, SLOT(send_to_check()));
 
     clues_window_lock = false;
 
@@ -84,7 +83,6 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     this->setCentralWidget(central);
 
     //set blank house image and reset cells indexes
-    this->clues_window = NULL;
     this->clear();
 }
 
@@ -98,13 +96,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::clear() {
 
-    for(int times=0; times<2; times++) { //some QT bug or too complex stuff to dig in
-        for(int i=0; i<5; i++) {
-            for(int j=0; j<5; j++) cells[i][j]->setCurrentIndex(-1);
-            houses[i]->setPixmap(pmap_blank);  //blank one
-            if(houses[i]->pixmap()->cacheKey() != pmap_blank.cacheKey()) qDebug("WRONG");
-        }
-     }
+    for(int i=0; i<5; i++) {
+        for(int j=0; j<5; j++) cells[i][j]->setCurrentIndex(-1);
+        houses[i]->setPixmap(pmap_blank);  //blank one
+        if(houses[i]->pixmap()->cacheKey() != pmap_blank.cacheKey()) qDebug("WRONG");
+    }
+
     if(this->clues_window) this->clues_window->clear();
 }
 
@@ -124,28 +121,4 @@ void MainWindow::spawn_clues_window() {
 
 void MainWindow::unlock_clues_window() {
     this->clues_window_lock = false;
-}
-
-void MainWindow::send_to_check() {
-    QString answers[5][5];
-    QMessageBox box;
-
-    for(int i=0; i<5; i++) {
-        for(int j=0; j<5; j++) {
-            answers[i][j] = this->cells[i][j]->itemText(this->cells[i][j]->currentIndex());
-        }
-    }
-
-    if(t->check(answers)) {
-        box.setText("Hai risolto l'indovinello, complimenti!");
-        box.setIcon(QMessageBox::Warning);
-    }
-    else {
-        box.setText("Non è esatto. Riprova!");
-        box.setIcon(QMessageBox::Critical);
-    }
-
-    box.setWindowTitle("Risultato");
-    box.setWindowIcon(QIcon(db->gui_config->value("mainwindowicon")->at(0).answer));
-    box.exec();
 }
