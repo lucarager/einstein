@@ -72,6 +72,16 @@ void Table::generateRandomTableFromDB() {
 
 void Table::generateClues() {
 
+    //while !solvable
+        //if unreferencedCells > 0
+            //if unreferencedCells == CellCount
+                //generateRandomClue(randomUnreferencedTile());
+            //else
+                //generateRandomClue(randomReferencedTile);
+        //else
+            //solvable = true
+            //cleanup
+
 }
 
 TableCell* Table::getRandomUnreferencedCellInRow(int row) {
@@ -82,6 +92,22 @@ TableCell* Table::getRandomUnreferencedCellInRow(int row) {
 TableCell* Table::getRandomReferencedCellInRow(int row) {
     row;
     return NULL;
+}
+
+void Table::generateRandomClue() {
+    //random int 1 <= x <= 3
+    //switch and execute clue generator
+}
+void Table::generateVerticalClue() {
+    //data la tile di partenza, seleziona un'altra della stessa colonna
+    //genera l'indizio
+    //imponi referenced = true su entrambi
+}
+void Table::generateBetweenClue() {
+}
+void Table::generateDirectionalClue() {
+}
+void Table::generateNearClue() {
 }
 
 bool Table::check(QString answers[5][5]) {  //compares user's answers to the right ones
