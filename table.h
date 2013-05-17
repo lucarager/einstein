@@ -4,6 +4,7 @@
 #include <QString>
 #include <QTime>
 #include <QDate>
+#include <QDebug>
 #include <QStringList>
 #include "db.h"
 #include "tablecell.h"
@@ -17,17 +18,21 @@ public:
     TableCell table[5][5];          //used to generate clues and check for the right answers
 
     bool check(QString answers[5][5]);
+    bool solvable;
+    QStringList clues[28];
     QString **solve();
 
-    TableCell *getRandomUnreferencedCellInRow(int row, int column);
-    TableCell *getRandomReferencedCellInRow(int row, int column);
+    int unreferencedCellsCount;
+    int referencedCellsCount;
+
+    TableCell *getRandomCell(int row, int column, bool referenced);
 
 private:
     DB *db;
 
     void generateRandomTableFromDB();
     void generateClues();
-    void generateRandomClue();
+    void generateRandomClue(TableCell *cell);
     void generateVerticalClue();
     void generateBetweenClue();
     void generateDirectionalClue();

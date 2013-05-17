@@ -3,7 +3,11 @@
 
 Table::Table(DB *db) {
     this->db = db;
-
+    this->solvable = false;
+    this->unreferencedCellsCount = 25;
+    this->referencedCellsCount = 0;
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
     this->generateRandomTableFromDB();
 }
 
@@ -68,9 +72,31 @@ void Table::generateRandomTableFromDB() {
     }
     box.setText(msg);
     box.exec();
+    generateClues();
 }
 
 void Table::generateClues() {
+
+    int i = 20;
+
+    while(i--) {
+
+        if(this->unreferencedCellsCount > 0) {
+            if(this->unreferencedCellsCount == 25) {
+                generateRandomClue(getRandomCell(-1, -1, false));
+            } else {
+                generateRandomClue(getRandomCell(-1, -1, true));
+            }
+        } else {
+            this->solvable = true;
+        }
+
+    }
+    for (int i = 0; i < 20; i++)
+    {
+        qDebug() << this->clues->at(i);
+    }
+
 
     //while !solvable
         //if unreferencedCells > 0
@@ -84,30 +110,59 @@ void Table::generateClues() {
 
 }
 
-TableCell* Table::getRandomUnreferencedCellInRow(int row, int column) {
-    row;
-    return NULL;
+TableCell* Table::getRandomCell(int row, int column, bool referenced) {
+
+    int rand1, rand2;
+    while(true) {
+        rand1 = qrand()%5;
+        if(row > -1) {
+            if(column > -1) {
+                if(table[row][column].referenced == referenced) return &table[row][column];
+            } else {
+                if(table[row][rand1].referenced == referenced) return &table[row][rand1];
+            }
+        } else {
+            if(column > -1) {
+                if(table[rand1][column].referenced == referenced) return &table[rand1][column];
+            } else {
+                rand2 = qrand()%5;
+                if(table[rand1][rand2].referenced == referenced) return &table[rand1][rand2];
+            }
+        }
+    }
+
 }
 
-TableCell* Table::getRandomReferencedCellInRow(int row, int column) {
-    row;
-    return NULL;
-}
-
-void Table::generateRandomClue() {
-    //random int 1 <= x <= 3
-    //switch and execute clue generator
+void Table::generateRandomClue(TableCell *cell) {
+    switch(qrand()%4) {
+        case 0:
+            generateVerticalClue();
+        break;
+        case 1:
+            generateBetweenClue();
+        break;
+        case 2:
+            generateDirectionalClue();
+        break;
+        case 3:
+            generateNearClue();
+        break;
+    }
 }
 void Table::generateVerticalClue() {
     //data la tile di partenza, seleziona un'altra della stessa colonna
     //genera l'indizio
     //imponi referenced = true su entrambi
+    this->clues->append("generateVerticalClue");
 }
 void Table::generateBetweenClue() {
+    this->clues->append("generateBetweenClue");
 }
 void Table::generateDirectionalClue() {
+    this->clues->append("generateDirectionalClue");
 }
 void Table::generateNearClue() {
+    this->clues->append("generateNearClue");
 }
 
 bool Table::check(QString answers[5][5]) {  //compares user's answers to the right ones
