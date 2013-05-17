@@ -38,6 +38,7 @@ private slots:
     void spawn_clues_window();
     void unlock_clues_window();
     void send_to_check();
+    void solve();
 
 private:
     QApplication *app;

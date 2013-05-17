@@ -9,7 +9,7 @@ struct TableCell {
     int col;
     QString answer;
     QString answertype;
-    QString verb;
+    QString prefix;
 };
 
 #endif // TABLECELL_H

@@ -77,6 +77,7 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     QObject::connect(buttons[INDICATIONS], SIGNAL(clicked()), this, SLOT(spawn_clues_window()));
     QObject::connect(buttons[QUIT], SIGNAL(clicked()), app, SLOT(quit()));
     QObject::connect(buttons[CHECK], SIGNAL(clicked()), this, SLOT(send_to_check()));
+    QObject::connect(buttons[SOLVE], SIGNAL(clicked()), this, SLOT(solve()));
 
     clues_window_lock = false;
 
@@ -148,4 +149,10 @@ void MainWindow::send_to_check() {
     box.setWindowTitle("Risultato");
     box.setWindowIcon(QIcon(db->gui_config->value("mainwindowicon")->at(0).answer));
     box.exec();
+}
+
+void MainWindow::solve() {
+    for(int i=0; i<5; i++)
+        for(int j=0; j<5; j++)
+            cells[i][j]->setCurrentText(t->table[i][j].answer);
 }

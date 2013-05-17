@@ -2,48 +2,55 @@
 <data>
 <!--
 xml spec:
-<prop name="property_name" verb="property_verb">
+<prop name="property_name" prefix="property_prefix">
     <i>item1</i>
     <i>item2</i>
     <i>item3</i>
 </prop>
 -->
-<prop name="Colore" verb="e'">
+<prop name="Colore" prefix="e'">
     <i>Blu</i>
     <i>Verde</i>
     <i>Rosso</i>
     <i>Viola</i>
     <i>Bianco</i>
 </prop>
-<prop name="Nazionalita'" verb="e'">
+<prop name="Nazionalita'" prefix="e'">
     <i>Russo</i>
     <i>Tedesco</i>
     <i>Italiano</i>
-    <i>Alieno</i>
-    <i>Montanaro</i>
+    <i>Inglese</i>
+    <i>Francese</i>
+    <i>Danese</i>
+    <i>Spagnolo</i>
 </prop>
-<prop name="Bevanda" verb="beve">
+<prop name="Bevanda" prefix="beve">
+    <i>Thè</i>
     <i>Vodka</i>
-    <i>Rum</i>
     <i>Whiskey</i>
     <i>Birra</i>
-    <i>Assenzio</i>
+    <i>Gin Tonic</i>
+    <i>Acqua</i>
+    <i>Coca Cola</i>
+    <i>Succo di Frutta</i>
 </prop>
-<prop name="Sigarette" verb="fuma">
+<prop name="Sigarette" prefix="fuma">
     <i>Marlboro</i>
     <i>Pall-mall</i>
     <i>Diva</i>
     <i>Merith</i>
     <i>Camel</i>
 </prop>
-<prop name="Animale" verb="ha">
+<prop name="Animale" prefix="ha un">
     <i>Criceto</i>
-    <i>Orso add.</i>
-    <i>Hurricane</i>
-    <i>Micio</i>
-    <i>Scarafaggio</i>
+    <i>Orso Addomesticato</i>
+    <i>Cane</i>
+    <i>Gatto</i>
+    <i>Geco</i>
+    <i>Pesce Rosso</i>
+    <i>Tartaruga</i>
 </prop>
-<prop name="OS" verb="usa">
+<prop name="OS" prefix="usa">
     <i>Windows</i>
     <i>Linux</i>
     <i>BSD</i>
@@ -53,5 +60,31 @@ xml spec:
     <i>HP-UX</i>
     <i>IOS</i>
     <i>Android</i>
+</prop>
+<prop name="Serie TV preferita" prefix="guarda">
+    <i>Il Trono di Spade</i>
+    <i>Grey's Anatomy</i>
+    <i>How I Met Your Mother</i>
+    <i>Scrubs</i>
+    <i>Doctor Who</i>
+</prop>
+<prop name="Lavoro" prefix="lavora come">
+    <i>Medico</i>
+    <i>Ingegnere</i>
+    <i>Avvocato</i>
+    <i>Stilista</i>
+    <i>Attore</i>
+    <i>Astronauta</i>
+    <i>Poliziotto</i>
+    <i>Insegnante</i>
+    <i>Chef</i>
+</prop>
+<prop name="Linguaggio di Programmazione" prefix="programma in">
+    <i>C++</i>
+    <i>Fortran</i>
+    <i>Python</i>
+    <i>Java</i>
+    <i>Pascal</i>
+    <i>Assembly</i>
 </prop>
 </data>

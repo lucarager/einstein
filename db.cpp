@@ -17,7 +17,7 @@ void DB::parseXML(QString xmlfile, QHash<QString, QList<TableCell> *> *&h) {
 
     QXmlStreamReader xml(buf);
     QXmlStreamReader::TokenType token;
-    QString propname, propverb, propval;
+    QString propname, propprefix, propval;
     QXmlStreamAttributes attr;
     TableCell tmp;
 
@@ -28,13 +28,13 @@ void DB::parseXML(QString xmlfile, QHash<QString, QList<TableCell> *> *&h) {
         if(token == QXmlStreamReader::StartElement && xml.name().toString().contains("prop")) {
             attr = xml.attributes();
             propname = attr.value("name").toString();
-            propverb = attr.hasAttribute("verb") ? attr.value("verb").toString() : "";
+            propprefix = attr.hasAttribute("prefix") ? attr.value("prefix").toString() : "";
             if(!h->contains(propname)) h->insert(propname, new QList<TableCell>);
         }
         else if(token == QXmlStreamReader::Characters && !xml.isWhitespace()) {
             propval = xml.text().toString();
             tmp.answertype = propname;
-            tmp.verb = propverb;
+            tmp.prefix = propprefix;
             tmp.answer = propval;
             h->value(propname)->append(tmp);
         }

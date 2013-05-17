@@ -19,14 +19,19 @@ public:
     bool check(QString answers[5][5]);
     QString **solve();
 
-    TableCell *getRandomUnreferencedCellInRow(int row);
-    TableCell *getRandomReferencedCellInRow(int row);
+    TableCell *getRandomUnreferencedCellInRow(int row, int column);
+    TableCell *getRandomReferencedCellInRow(int row, int column);
 
 private:
     DB *db;
 
     void generateRandomTableFromDB();
     void generateClues();
+    void generateRandomClue();
+    void generateVerticalClue();
+    void generateBetweenClue();
+    void generateDirectionalClue();
+    void generateNearClue();
 };
 
 #endif // TABLE_H

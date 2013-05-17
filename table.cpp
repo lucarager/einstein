@@ -50,7 +50,7 @@ void Table::generateRandomTableFromDB() {
 
             table[i][j].answer = rows[i]->at(rndindex).answer;
             table[i][j].answertype = rows[i]->at(rndindex).answertype;
-            table[i][j].verb = rows[i]->at(rndindex).verb;
+            table[i][j].prefix = rows[i]->at(rndindex).prefix;
             table[i][j].col = j;
             table[i][j].referenced = false;
             table[i][j].deducable = true;
@@ -84,12 +84,12 @@ void Table::generateClues() {
 
 }
 
-TableCell* Table::getRandomUnreferencedCellInRow(int row) {
+TableCell* Table::getRandomUnreferencedCellInRow(int row, int column) {
     row;
     return NULL;
 }
 
-TableCell* Table::getRandomReferencedCellInRow(int row) {
+TableCell* Table::getRandomReferencedCellInRow(int row, int column) {
     row;
     return NULL;
 }
