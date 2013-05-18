@@ -14,8 +14,7 @@
 #include <QXmlStreamReader>
 #include <QMessageBox>
 #include <QTimer>
-#include "cbox.h"
-#include "clues.h"
+#include <QCheckBox>
 #include "db.h"
 #include "table.h"
 
@@ -34,9 +33,6 @@ public:
 
 private slots:
     void clear(void);
-    void change_house_pixmap(int house_index, int pixmap_index);
-    void spawn_clues_window();
-    void unlock_clues_window();
     void send_to_check();
     void solve();
 
@@ -46,19 +42,15 @@ private:
     DB *db;
     Table *t;
 
-    QLabel *houses[5];
-    QPixmap pmap[6];
-    QPixmap pmap_blank;
+    QList<QCheckBox*> clues_checkbox;
+    QList<QLabel*> clues_labels;
 
     QLabel *labels[5];
 
-    CBox *cells[5][5];
+    QComboBox *cells[5][5];
 
     static const int buttons_iconsize=30;
     QPushButton *buttons[5];
-
-    CluesWindow *clues_window;
-    bool clues_window_lock;
 };
 
 #endif // MAINWINDOW_H

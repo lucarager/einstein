@@ -14,6 +14,8 @@ xml spec:
     <i>Rosso</i>
     <i>Viola</i>
     <i>Bianco</i>
+    <i>Nero</i>
+    <i>Bianco</i>
 </prop>
 <prop name="Nazionalita'" prefix="e'">
     <i>Russo</i>

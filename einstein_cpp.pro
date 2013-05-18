@@ -15,16 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
     mainwindow.cpp \
     db.cpp \
-    clues.cpp \
     table.cpp \
-    cbox.cpp \
     clue_checkbox.cpp
 
 HEADERS  += mainwindow.h \
     db.h \
     table.h \
-    clues.h \
-    cbox.h \
     tablecell.h \
     clue_checkbox.h
 

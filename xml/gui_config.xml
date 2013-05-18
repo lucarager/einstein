@@ -9,17 +9,6 @@
 <prop name="mainwindowicon">
 	<i>:/images/appicon.png</i>
 </prop>
-<prop name="blankhouseimg">
-	<i>:/images/house_blank.png</i>
-</prop>
-<prop name="houseimg">
-    <i>:/images/house_blue.png</i>
-    <i>:/images/house_green.png</i>
-    <i>:/images/house_red.png</i>
-    <i>:/images/house_violet.png</i>
-    <i>:/images/house_white.png</i>
-    <i>:/images/house_blank.png</i>
-</prop>
 <prop name="buttonimg">
     <i>:/images/reload.png</i>
     <i>:/images/info.png</i>

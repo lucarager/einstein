@@ -3,12 +3,17 @@
 
 Table::Table(DB *db) {
     this->db = db;
+
+    this->clues = new QStringList;
     this->solvable = false;
     this->unreferencedCellsCount = 25;
     this->referencedCellsCount = 0;
+
     QTime time = QTime::currentTime();
     qsrand((uint)time.msec());
+
     this->generateRandomTableFromDB();
+    //this->generateClues();    // CRASHES HERE //maby because of the infinite loop that should be already solved
 }
 
 Table::~Table() {
@@ -19,46 +24,51 @@ void Table::generateRandomTableFromDB() {
     //FOR DEBUGGING INFO
     QMessageBox m;
 
-    //random seed
-    QDate date = QDate::currentDate();
-    QTime time = QTime::currentTime();
-    qsrand(date.year() + date.month() + date.day() + time.hour() + time.minute() + time.second());
-
     //random selection of 5 properties from DB
     QList<TableCell> *rows[5];
+    QList<TableCell> five_items[5];
     QList<int> used;
     int rndindex;
-/*
- *  Nationalita' + colore hardcoded
- *  + 3 random properties
- *
- *  Select 5 properties from db
- */
+
+//  Select 5 properties from db
+    qDebug("5 PROPS SELECTION");
+    qDebug(QString::number(db->cell_items->size()).toLatin1().data());
     for(int i=0; i<5; i++) {
         while(used.contains(rndindex = qrand() % db->cell_items->size()));
         used << rndindex;
-        rows[i] = db->cell_items->value(db->cell_items->keys().at(rndindex));
+        rows[i] = db->cell_items->value(db->cell_items->keys().at(rndindex));   //QList<TableCell>
     }
-
+    qDebug("5 ITEMS SELECTION");
     //random selection of 5 items for each of 5 selected properties
     //and random table construction
     for(int i=0; i<5; i++) {
         used.clear();
         for(int j=0; j<5; j++) {
             while(used.contains(rndindex = qrand() % rows[i]->size())) ;
-            used << rndindex;
+            used.append(rndindex);
+            five_items[i].append(rows[i]->at(rndindex));
+            rowstext[i].append(rows[i]->at(rndindex).answer);
+        }
+    }
 
-            table[i][j].answer = rows[i]->at(rndindex).answer;
-            table[i][j].answertype = rows[i]->at(rndindex).answertype;
-            table[i][j].prefix = rows[i]->at(rndindex).prefix;
+    qDebug("TABLE FILLING");
+    for(int i=0; i<5; i++) {
+        used.clear();
+
+        for(int j=0; j<5; j++) {
+            while(used.contains(rndindex = qrand() % 5));
+            used.append(rndindex);
+
+            table[i][j].answer = five_items[i].at(rndindex).answer;
+            table[i][j].answertype = five_items[i].at(rndindex).answertype;
+            table[i][j].prefix = five_items[i].at(rndindex).prefix;
             table[i][j].referenced = false;
             table[i][j].deducable = true;
             table[i][j].row = i;
             table[i][j].col = j;
-
-            rowstext[i] << rows[i]->at(j).answer;
         }
     }
+    qDebug("FILLED");
 
     //DEBUG purposes: visualize generated matrix, it's NOT yet used in the UI construction
     QMessageBox box;
@@ -69,7 +79,6 @@ void Table::generateRandomTableFromDB() {
     }
     box.setText(msg);
     box.exec();
-    generateClues();
 }
 
 void Table::generateClues() {

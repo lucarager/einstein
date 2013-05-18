@@ -19,7 +19,7 @@ public:
 
     bool check(QString answers[5][5]);
     bool solvable;
-    QStringList clues[28];
+    QStringList *clues;
     QString **solve();
 
     int unreferencedCellsCount;
