@@ -34,11 +34,7 @@ void Table::generateRandomTableFromDB() {
  *
  *  Select 5 properties from db
  */
-    rows[0] = db->cell_items->value("Nazionalita'");
-    rows[1] = db->cell_items->value("Colore");
-    used << db->cell_items->keys().indexOf("Nazionalita'")
-         << db->cell_items->keys().indexOf("Colore");
-    for(int i=2; i<5; i++) {
+    for(int i=0; i<5; i++) {
         while(used.contains(rndindex = qrand() % db->cell_items->size()));
         used << rndindex;
         rows[i] = db->cell_items->value(db->cell_items->keys().at(rndindex));
@@ -55,9 +51,10 @@ void Table::generateRandomTableFromDB() {
             table[i][j].answer = rows[i]->at(rndindex).answer;
             table[i][j].answertype = rows[i]->at(rndindex).answertype;
             table[i][j].prefix = rows[i]->at(rndindex).prefix;
-            table[i][j].col = j;
             table[i][j].referenced = false;
             table[i][j].deducable = true;
+            table[i][j].row = i;
+            table[i][j].col = j;
 
             rowstext[i] << rows[i]->at(j).answer;
         }
@@ -83,16 +80,16 @@ void Table::generateClues() {
 
         if(this->unreferencedCellsCount > 0) {
             if(this->unreferencedCellsCount == 25) {
-                generateRandomClue(getRandomCell(-1, -1, false));
+                generateRandomClue(getCellLoop(-1, -1, false));
             } else {
-                generateRandomClue(getRandomCell(-1, -1, true));
+                generateRandomClue(getCellLoop(-1, -1, true));
             }
         } else {
             this->solvable = true;
         }
 
     }
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < clues->size(); i++)
     {
         qDebug() << this->clues->at(i);
     }
@@ -110,8 +107,7 @@ void Table::generateClues() {
 
 }
 
-TableCell* Table::getRandomCell(int row, int column, bool referenced) {
-
+TableCell* Table::getCellLoop(int row, int column, bool referenced) {
     int rand1, rand2;
     while(true) {
         rand1 = qrand()%5;
@@ -130,41 +126,114 @@ TableCell* Table::getRandomCell(int row, int column, bool referenced) {
             }
         }
     }
-
 }
-
+TableCell* Table::getCell(int row, int column, bool referenced) {
+    int rand1, rand2;
+    rand1 = qrand()%5;
+    if(row > -1) {
+        if(column > -1) {
+            if(table[row][column].referenced == referenced) return &table[row][column];
+        } else {
+            if(table[row][rand1].referenced == referenced) return &table[row][rand1];
+        }
+    } else {
+        if(column > -1) {
+            if(table[rand1][column].referenced == referenced) return &table[rand1][column];
+        } else {
+            rand2 = qrand()%5;
+            if(table[rand1][rand2].referenced == referenced) return &table[rand1][rand2];
+        }
+    }
+    return NULL;
+}
 void Table::generateRandomClue(TableCell *cell) {
     switch(qrand()%4) {
         case 0:
-            generateVerticalClue();
+            generateVerticalClue(cell);
         break;
         case 1:
-            generateBetweenClue();
+            generateBetweenClue(cell);
         break;
         case 2:
-            generateDirectionalClue();
+            generateDirectionalClue(cell);
         break;
         case 3:
-            generateNearClue();
+            generateNearClue(cell);
         break;
     }
 }
-void Table::generateVerticalClue() {
+void Table::generateVerticalClue(TableCell *cell) {
+
     //data la tile di partenza, seleziona un'altra della stessa colonna
-    //genera l'indizio
-    //imponi referenced = true su entrambi
-    this->clues->append("generateVerticalClue");
+    //che non sia referenced
+    TableCell *other;
+
+    if(cell->row == 0) {
+        other = getCell(1, cell->col, false);
+        if(!other) return;
+    } else if(cell->row == 4) {
+        other = getCell(3, cell->col, false);
+        if(!other) return;
+    } else {
+        if(qrand()%2) {
+            other = getCell(cell->row + 1, cell->col, false);
+            if(!other) other = getCell(cell->row - 1, cell->col, false);
+            if(!other) return;
+        } else {
+            other = getCell(cell->row - 1, cell->col, false);
+            if(!other) other = getCell(cell->row + 1, cell->col, false);
+            if(!other) return;
+        }
+    }
+
+    //fa sì che siano referenced
+    this->reference(cell);
+    this->reference(other);
+
+    //genera la risposta
+    this->clues->append(cell->answer + " è" + (other->row > cell->row ? " sopra " : " sotto ") + other->answer);
 }
-void Table::generateBetweenClue() {
+void Table::generateDirectionalClue(TableCell *cell) {
+    TableCell *other;
+
+    if(cell->row == 0) {
+        other = getCell(cell->row, 1, false);
+        if(!other) return;
+    } else if(cell->row == 4) {
+        other = getCell(cell->col, 3, false);
+        if(!other) return;
+    } else {
+        if(qrand()%2) {
+            other = getCell(cell->row, cell->col + 1, false);
+            if(!other) other = getCell(cell->row, cell->col - 1, false);
+            if(!other) return;
+        } else {
+            other = getCell(cell->row, cell->col - 1, false);
+            if(!other) other = getCell(cell->row, cell->col + 1, false);
+            if(!other) return;
+        }
+    }
+
+    //fa sì che siano referenced
+    this->reference(cell);
+    this->reference(other);
+
+    //genera la risposta
+    this->clues->append(cell->answer + " è" + (other->col > cell->col ? " a sinistra di " : " a destra di ") + other->answer);
+}
+void Table::generateBetweenClue(TableCell *cell) {
     this->clues->append("generateBetweenClue");
 }
-void Table::generateDirectionalClue() {
-    this->clues->append("generateDirectionalClue");
-}
-void Table::generateNearClue() {
+void Table::generateNearClue(TableCell *cell) {
     this->clues->append("generateNearClue");
 }
-
+void Table::reference(TableCell *cell) {
+    if(!cell->referenced) {
+        cell->referenced = true;
+        this->referencedCellsCount++;
+        this->referencedCellsCount--;
+    }
+}
 bool Table::check(QString answers[5][5]) {  //compares user's answers to the right ones
     for(int i=0; i<5; i++) {
         for(int j=0; j<5; j++) {

@@ -25,7 +25,8 @@ public:
     int unreferencedCellsCount;
     int referencedCellsCount;
 
-    TableCell *getRandomCell(int row, int column, bool referenced);
+    TableCell *getCell(int row, int column, bool referenced);
+    TableCell *getCellLoop(int row, int column, bool referenced);
 
 private:
     DB *db;
@@ -33,10 +34,11 @@ private:
     void generateRandomTableFromDB();
     void generateClues();
     void generateRandomClue(TableCell *cell);
-    void generateVerticalClue();
-    void generateBetweenClue();
-    void generateDirectionalClue();
-    void generateNearClue();
+    void generateVerticalClue(TableCell *cell);
+    void generateBetweenClue(TableCell *cell);
+    void generateDirectionalClue(TableCell *cell);
+    void generateNearClue(TableCell *cell);
+    void reference(TableCell *cell);
 };
 
 #endif // TABLE_H

@@ -7,6 +7,7 @@ struct TableCell {
     bool referenced;
     bool deducable;
     int col;
+    int row;
     QString answer;
     QString answertype;
     QString prefix;
