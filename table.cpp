@@ -80,9 +80,9 @@ void Table::generateClues() {
 
         if(this->unreferencedCellsCount > 0) {
             if(this->unreferencedCellsCount == 25) {
-                generateRandomClue(getCellLoop(-1, -1, false));
+                generateRandomClue(getCell(-1, -1, false));
             } else {
-                generateRandomClue(getCellLoop(-1, -1, true));
+                generateRandomClue(getCell(-1, -1, true));
             }
         } else {
             this->solvable = true;
@@ -107,13 +107,17 @@ void Table::generateClues() {
 
 }
 
-TableCell* Table::getCellLoop(int row, int column, bool referenced) {
+TableCell* Table::getCell(int row, int column, bool referenced) {
     int rand1, rand2;
     while(true) {
         rand1 = qrand()%5;
         if(row > -1) {
             if(column > -1) {
-                if(table[row][column].referenced == referenced) return &table[row][column];
+                if(table[row][column].referenced == referenced) {
+                    return &table[row][column];
+                }  else {
+                    return NULL;
+                }
             } else {
                 if(table[row][rand1].referenced == referenced) return &table[row][rand1];
             }
@@ -127,25 +131,7 @@ TableCell* Table::getCellLoop(int row, int column, bool referenced) {
         }
     }
 }
-TableCell* Table::getCell(int row, int column, bool referenced) {
-    int rand1, rand2;
-    rand1 = qrand()%5;
-    if(row > -1) {
-        if(column > -1) {
-            if(table[row][column].referenced == referenced) return &table[row][column];
-        } else {
-            if(table[row][rand1].referenced == referenced) return &table[row][rand1];
-        }
-    } else {
-        if(column > -1) {
-            if(table[rand1][column].referenced == referenced) return &table[rand1][column];
-        } else {
-            rand2 = qrand()%5;
-            if(table[rand1][rand2].referenced == referenced) return &table[rand1][rand2];
-        }
-    }
-    return NULL;
-}
+
 void Table::generateRandomClue(TableCell *cell) {
     switch(qrand()%4) {
         case 0:
@@ -217,7 +203,6 @@ void Table::generateDirectionalClue(TableCell *cell) {
     //fa sì che siano referenced
     this->reference(cell);
     this->reference(other);
-
     //genera la risposta
     this->clues->append(cell->answer + " è" + (other->col > cell->col ? " a sinistra di " : " a destra di ") + other->answer);
 }

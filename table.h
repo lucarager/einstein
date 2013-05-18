@@ -26,7 +26,6 @@ public:
     int referencedCellsCount;
 
     TableCell *getCell(int row, int column, bool referenced);
-    TableCell *getCellLoop(int row, int column, bool referenced);
 
 private:
     DB *db;
