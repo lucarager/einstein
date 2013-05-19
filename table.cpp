@@ -13,7 +13,7 @@ Table::Table(DB *db) {
     qsrand((uint)time.msec());
 
     this->generateRandomTableFromDB();
-    //this->generateClues();    // CRASHES HERE //maby because of the infinite loop that should be already solved
+    this->generateClues();    // CRASHES HERE //maby because of the infinite loop that should be already solved
 }
 
 Table::~Table() {
