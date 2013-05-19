@@ -51,11 +51,6 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     einstein_logo->setPixmap(einstein_logo->pixmap()->scaled(160, 80, Qt::KeepAspectRatio));
     einstein_logo->setAlignment(Qt::AlignCenter);
 
-    //DUMMY CLUES INSERT
-    this->t->clues->clear();
-    for(int i=0; i<25; i++) this->t->clues->append(QString::number(i+1) + "). TEST CLUE");
-    //
-
     //clues combobox grid generetion
     int clues_displayed=0;
     while(clues_displayed != this->t->clues->size()) {
@@ -68,19 +63,24 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
         this->clues_checkbox.append(tmp_clue_cbox);
         tmp_clue_label = new QLabel(this);
         this->clues_labels.append(tmp_clue_label);
+        tmp_clue_label->setAlignment(Qt::AlignLeft);
 
         tmp_clue_label->setText(this->t->clues->at(clues_displayed));
-        tmp_clue_label->setAlignment(Qt::AlignLeft);
         QObject::connect(tmp_clue_cbox, SIGNAL(clicked(bool)), tmp_clue_label, SLOT(setDisabled(bool)));
 
         tmp_clue_row = new QHBoxLayout(this);
         tmp_clue_row->addWidget(tmp_clue_cbox);
         tmp_clue_row->addSpacing(10);
-        tmp_clue_row->addWidget(tmp_clue_label);
+        tmp_clue_row->addWidget(tmp_clue_label, 1, Qt::AlignLeft);
 
         tmpv->addLayout(tmp_clue_row);
 
         clues_displayed++;
+    }
+
+    for(int i=clues_displayed; i<30; i++) {
+        tmp_clue_label = new QLabel(this);
+        tmpv->addWidget(tmp_clue_label);
     }
 
     if(clues_displayed > 15) clues_hl->addLayout(tmpv);
@@ -91,7 +91,7 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
                 "border: 1px solid #aaa;"\
                 "}");
 
-    int row=0, col=0;
+    int row=0;
 
     //create and setup labels
     QLabel *tmplabel;
