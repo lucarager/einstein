@@ -13,7 +13,7 @@ Table::Table(DB *db) {
     qsrand((uint)time.msec());
 
     this->generateRandomTableFromDB();
-    //this->generateClues();    // CRASHES HERE //maby because of the infinite loop that should be already solved
+    this->generateClues();    // CRASHES HERE //maby because of the infinite loop that should be already solved
 }
 
 Table::~Table() {
@@ -89,9 +89,9 @@ void Table::generateClues() {
 
         if(this->unreferencedCellsCount > 0) {
             if(this->unreferencedCellsCount == 25) {
-                generateRandomClue(getCell(-1, -1, false));
+                generateRandomClue(getCell(-1, -1, false, -1, -1));
             } else {
-                generateRandomClue(getCell(-1, -1, true));
+                generateRandomClue(getCell(-1, -1, true, -1, -1));
             }
         } else {
             this->solvable = true;
@@ -116,26 +116,26 @@ void Table::generateClues() {
 
 }
 
-TableCell* Table::getCell(int row, int column, bool referenced) {
+TableCell* Table::getCell(int row, int column, bool referenced, int exceptrow, int exceptcol) {
     int rand1, rand2;
     while(true) {
         rand1 = qrand()%5;
         if(row > -1) {
             if(column > -1) {
-                if(table[row][column].referenced == referenced) {
+                if(table[row][column].referenced == referenced && table[row][column].row != exceptrow && table[row][column].col != exceptcol) {
                     return &table[row][column];
                 }  else {
                     return NULL;
                 }
             } else {
-                if(table[row][rand1].referenced == referenced) return &table[row][rand1];
+                if(table[row][rand1].referenced == referenced && table[row][rand2].row != exceptrow && table[row][rand2].col != exceptcol) return &table[row][rand1];
             }
         } else {
             if(column > -1) {
-                if(table[rand1][column].referenced == referenced) return &table[rand1][column];
+                if(table[rand1][column].referenced == referenced && table[rand1][column].row != exceptrow && table[rand1][column].col != exceptcol) return &table[rand1][column];
             } else {
                 rand2 = qrand()%5;
-                if(table[rand1][rand2].referenced == referenced) return &table[rand1][rand2];
+                if(table[rand1][rand2].referenced == referenced && table[rand1][rand2].row != exceptrow && table[rand1][rand2].col != exceptcol) return &table[rand1][rand2];
             }
         }
     }
@@ -164,19 +164,19 @@ void Table::generateVerticalClue(TableCell *cell) {
     TableCell *other;
 
     if(cell->row == 0) {
-        other = getCell(1, cell->col, false);
+        other = getCell(1, cell->col, false, -1, -1);
         if(!other) return;
     } else if(cell->row == 4) {
-        other = getCell(3, cell->col, false);
+        other = getCell(3, cell->col, false, -1, -1);
         if(!other) return;
     } else {
         if(qrand()%2) {
-            other = getCell(cell->row + 1, cell->col, false);
-            if(!other) other = getCell(cell->row - 1, cell->col, false);
+            other = getCell(cell->row + 1, cell->col, false, -1, -1);
+            if(!other) other = getCell(cell->row - 1, cell->col, false, -1, -1);
             if(!other) return;
         } else {
-            other = getCell(cell->row - 1, cell->col, false);
-            if(!other) other = getCell(cell->row + 1, cell->col, false);
+            other = getCell(cell->row - 1, cell->col, false, -1, -1);
+            if(!other) other = getCell(cell->row + 1, cell->col, false, -1, -1);
             if(!other) return;
         }
     }
@@ -191,20 +191,20 @@ void Table::generateVerticalClue(TableCell *cell) {
 void Table::generateDirectionalClue(TableCell *cell) {
     TableCell *other;
 
-    if(cell->row == 0) {
-        other = getCell(cell->row, 1, false);
+    if(cell->col == 0) {
+        other = getCell(-1, 1, false, cell->row, -1);
         if(!other) return;
-    } else if(cell->row == 4) {
-        other = getCell(cell->col, 3, false);
+    } else if(cell->col == 4) {
+        other = getCell(-1, 3, false, cell->row, -1);
         if(!other) return;
     } else {
         if(qrand()%2) {
-            other = getCell(cell->row, cell->col + 1, false);
-            if(!other) other = getCell(cell->row, cell->col - 1, false);
+            other = getCell(-1, cell->col + 1, false, cell->row, -1);
+            if(!other) other = getCell(-1, cell->col - 1, false, cell->row, -1);
             if(!other) return;
         } else {
-            other = getCell(cell->row, cell->col - 1, false);
-            if(!other) other = getCell(cell->row, cell->col + 1, false);
+            other = getCell(-1, cell->col - 1, false, cell->row, -1);
+            if(!other) other = getCell(-1, cell->col + 1, false, cell->row, -1);
             if(!other) return;
         }
     }
@@ -215,17 +215,49 @@ void Table::generateDirectionalClue(TableCell *cell) {
     //genera la risposta
     this->clues->append(cell->answer + " è" + (other->col > cell->col ? " a sinistra di " : " a destra di ") + other->answer);
 }
-void Table::generateBetweenClue(TableCell *cell) {
+void Table::generateNearClue(TableCell *cell) {
+    TableCell *other;
+
+    if(cell->row == 0) {
+        other = getCell(1, cell->col, false, -1, -1);
+        if(!other) return;
+    } else if(cell->row == 4) {
+        other = getCell(3, cell->col, false, -1, -1);
+        if(!other) return;
+    } else {
+        if(qrand()%2) {
+            other = getCell(cell->row + 1, cell->col, false, -1, -1);
+            if(!other) other = getCell(cell->row - 1, cell->col, false, -1, -1);
+            if(!other) return;
+        } else {
+            other = getCell(cell->row - 1, cell->col, false, -1, -1);
+            if(!other) other = getCell(cell->row + 1, cell->col, false, -1, -1);
+            if(!other) return;
+        }
+    }
+
     this->clues->append("generateBetweenClue");
 }
-void Table::generateNearClue(TableCell *cell) {
-    this->clues->append("generateNearClue");
+void Table::generateBetweenClue(TableCell *cell) {
+    TableCell *other1, *other2;
+
+    if(cell->col == 0 || cell->col == 4) return;
+    other1 = getCell(-1, cell->col-1, false, cell->row, -1);
+    other2 = getCell(-1, cell->col+1, false, cell->row, -1);
+
+    //fa sì che siano referenced
+    this->reference(cell);
+    this->reference(other1);
+    this->reference(other2);
+    //genera la risposta
+    this->clues->append(cell->answer + " è tra " + other1->answer + " e " + other2->answer);
 }
+
 void Table::reference(TableCell *cell) {
     if(!cell->referenced) {
         cell->referenced = true;
         this->referencedCellsCount++;
-        this->referencedCellsCount--;
+        this->unreferencedCellsCount--;
     }
 }
 bool Table::check(QString answers[5][5]) {  //compares user's answers to the right ones

@@ -25,7 +25,7 @@ public:
     int unreferencedCellsCount;
     int referencedCellsCount;
 
-    TableCell *getCell(int row, int column, bool referenced);
+    TableCell *getCell(int row, int column, bool referenced, int exceptrow, int exceptcol);
 
 private:
     DB *db;
