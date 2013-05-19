@@ -24,3 +24,5 @@ HEADERS  += mainwindow.h \
 
 RESOURCES += \
     resources.qrc
+
+FORMS +=

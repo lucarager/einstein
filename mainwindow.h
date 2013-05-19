@@ -21,7 +21,7 @@
 //pixmaps enum
 enum { WHITE, RED, BLUE, GREEN, VIOLET };
 //button array index enum
-enum { RELOAD, INDICATIONS, CHECK, SOLVE, QUIT };
+enum { RELOAD, CHECK, SOLVE, QUIT };
 
 class MainWindow : public QMainWindow
 {
@@ -45,12 +45,10 @@ private:
     QList<QCheckBox*> clues_checkbox;
     QList<QLabel*> clues_labels;
 
-    QLabel *labels[5];
-
     QComboBox *cells[5][5];
+    QPushButton *buttons[4];
 
     static const int buttons_iconsize=30;
-    QPushButton *buttons[5];
 };
 
 #endif // MAINWINDOW_H

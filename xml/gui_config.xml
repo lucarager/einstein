@@ -11,14 +11,12 @@
 </prop>
 <prop name="buttonimg">
     <i>:/images/reload.png</i>
-    <i>:/images/info.png</i>
     <i>:/images/check.png</i>
     <i>:/images/solve.png</i>
     <i>:/images/exit.png</i>
 </prop>
 <prop name="buttonlabels">
     <i>Resetta</i>
-    <i>Indizi</i>
     <i>Confronta</i>
     <i>Risolvi</i>
     <i>Esci</i>

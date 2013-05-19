@@ -33,8 +33,8 @@ xml spec:
     <i>Birra</i>
     <i>Gin Tonic</i>
     <i>Acqua</i>
-    <i>Coca Cola</i>
-    <i>Succo di Frutta</i>
+    <i>CocaCola</i>
+    <i>Succo</i>
 </prop>
 <prop name="Sigarette" prefix="fuma">
     <i>Marlboro</i>
@@ -45,11 +45,11 @@ xml spec:
 </prop>
 <prop name="Animale" prefix="ha un">
     <i>Criceto</i>
-    <i>Orso Addomesticato</i>
+    <i>Orso</i>
     <i>Cane</i>
     <i>Gatto</i>
     <i>Geco</i>
-    <i>Pesce Rosso</i>
+    <i>Pesce</i>
     <i>Tartaruga</i>
 </prop>
 <prop name="OS" prefix="usa">
@@ -63,13 +63,6 @@ xml spec:
     <i>IOS</i>
     <i>Android</i>
 </prop>
-<prop name="Serie TV preferita" prefix="guarda">
-    <i>Il Trono di Spade</i>
-    <i>Grey's Anatomy</i>
-    <i>How I Met Your Mother</i>
-    <i>Scrubs</i>
-    <i>Doctor Who</i>
-</prop>
 <prop name="Lavoro" prefix="lavora come">
     <i>Medico</i>
     <i>Ingegnere</i>
@@ -81,7 +74,7 @@ xml spec:
     <i>Insegnante</i>
     <i>Chef</i>
 </prop>
-<prop name="Linguaggio di Programmazione" prefix="programma in">
+<prop name="Linguaggio" prefix="programma in">
     <i>C++</i>
     <i>Fortran</i>
     <i>Python</i>

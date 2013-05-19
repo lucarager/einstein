@@ -8,50 +8,66 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     db = new DB(":/xml/cell_items.xml", ":/xml/gui_config.xml");
     t = new Table(this->db);
 
-    QString tmp;
-    for(int i=0; i<5; i++) {
-        for(int j=0; j<5; j++) {
-            tmp += this->t->table[i][j].answer + " ";
-        }
-        tmp += "\n";
-    }
-    qDebug(tmp.toLatin1().data());
-
     this->setWindowTitle(db->gui_config->value("mainwindowtitle")->at(0).answer);
     this->setWindowIcon(QIcon(QPixmap(db->gui_config->value("mainwindowicon")->at(0).answer)));
+    this->setStyleSheet(
+                "QMainWindow {"\
+                "background-image: url(\"://images/mwbackground.jpg\");"\
+                "}");
 
     //labels font
     QFont f;
     f.setPointSize(10);
     f.setBold(true);
 
-    QVBoxLayout *main_mw_layout;
+    //Layouts & Widgets for GUI
+    QWidget *mw_widget = new QWidget(this);
+    mw_widget->setContentsMargins(20,0,20,0);
+    QVBoxLayout *mw_layout = new QVBoxLayout(this);
 
+    QLabel *einstein_logo = new QLabel(this);
+
+    QWidget *answers_and_clues_widget = new QWidget(this);
+    QVBoxLayout *answers_and_clues_vl = new QVBoxLayout(this);
+
+    QWidget *grid_widget = new QWidget(this);
+    QGridLayout *grid = new QGridLayout(this);
+
+    QWidget *clues_widget = new QWidget(this);
+    clues_widget->setObjectName("clues_widget");
+    QHBoxLayout *clues_hl = new QHBoxLayout(this);
+    QVBoxLayout *tmpv = new QVBoxLayout(this);
+    QHBoxLayout *tmp_clue_row;
+
+    QWidget *buttons_widget = new QWidget(this);
+    QHBoxLayout *buttons_layout = new QHBoxLayout(this);
 
     //create and visualize clues in the top part of window
     QCheckBox *tmp_clue_cbox;
     QLabel *tmp_clue_label;
 
-    QHBoxLayout *tmph = new QHBoxLayout(this);
-    QVBoxLayout *tmpv = new QVBoxLayout(this);
-    QHBoxLayout *tmp_clue_row;
+    //Einstein logo
+    einstein_logo->setPixmap(QPixmap("://images/logoeinstein.png"));
+    einstein_logo->setPixmap(einstein_logo->pixmap()->scaled(160, 80, Qt::KeepAspectRatio));
+    einstein_logo->setAlignment(Qt::AlignCenter);
 
-    //DUMMY CULES INSERT
+    //DUMMY CLUES INSERT
     this->t->clues->clear();
     for(int i=0; i<25; i++) this->t->clues->append(QString::number(i+1) + "). TEST CLUE");
     //
 
+    //clues combobox grid generetion
     int clues_displayed=0;
     while(clues_displayed != this->t->clues->size()) {
         if(clues_displayed == 15) {
-            tmph->addLayout(tmpv);
+            clues_hl->addLayout(tmpv);
             tmpv = new QVBoxLayout;
         }
 
         tmp_clue_cbox = new QCheckBox(this);
-        this->clues_checkbox << tmp_clue_cbox;
+        this->clues_checkbox.append(tmp_clue_cbox);
         tmp_clue_label = new QLabel(this);
-        this->clues_labels << tmp_clue_label;
+        this->clues_labels.append(tmp_clue_label);
 
         tmp_clue_label->setText(this->t->clues->at(clues_displayed));
         tmp_clue_label->setAlignment(Qt::AlignLeft);
@@ -59,7 +75,7 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 
         tmp_clue_row = new QHBoxLayout(this);
         tmp_clue_row->addWidget(tmp_clue_cbox);
-        tmp_clue_row->addSpacing(20);
+        tmp_clue_row->addSpacing(10);
         tmp_clue_row->addWidget(tmp_clue_label);
 
         tmpv->addLayout(tmp_clue_row);
@@ -67,22 +83,37 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
         clues_displayed++;
     }
 
-    if(clues_displayed > 15) tmph->addLayout(tmpv);
+    if(clues_displayed > 15) clues_hl->addLayout(tmpv);
+    clues_widget->setLayout(clues_hl);
+    clues_widget->setStyleSheet(
+                "#clues_widget {"\
+                "background-color: #C0C0C0;"\
+                "border-radius: 15"\
+                "}");
+    clues_widget->setContentsMargins(25, 25, 25, 25);
 
     int row=0, col=0;
 
-    QWidget *central = new QWidget();
-    QGridLayout *grid = new QGridLayout(this);
-    grid->setSpacing(20);
-
     //create and setup labels
+    QLabel *tmplabel;
     for(int i=0; i<5; i++, row++) {
-        labels[i] = new QLabel(this);
-        labels[i]->setFont(f);
-        labels[i]->setText(t->table[i][0].answertype);
-        labels[i]->setAlignment(Qt::AlignRight);
-        grid->addWidget(labels[i], row, 0);
+        tmplabel = new QLabel(this);
+        tmplabel->setFont(f);
+        tmplabel->setText(t->table[i][0].answertype);
+        tmplabel->setAlignment(Qt::AlignRight);
+        grid->addWidget(tmplabel, row, 0);
     }
+
+    grid_widget->setLayout(grid);
+    grid_widget->setStyleSheet(
+                "QLabel {"\
+                "color: #225588;"\
+                "font-weight: bold;"\
+                "}"\
+                "QComboBox {"\
+                "font-weight: bold;"\
+                "}");
+
 
     //create and setup cells
     for(int i=0, row=0; i<5; i++, row++) {
@@ -93,26 +124,58 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
         }
     }
 
-    for(int i=0, col=1; i<5; i++, col++) {
+    answers_and_clues_widget->setObjectName("acw");
+    answers_and_clues_widget->setStyleSheet(
+                "#acw {"\
+                "background-color: white;"\
+                "border-radius: 15;"\
+                "}"\
+                "QComboBox {"\
+                "border-radius: 7;"\
+                "background-color: #225588;"\
+                "color: white;"\
+                "font-weight: bold;"\
+                "padding: 2 2;"\
+                "}");
+
+    //Buttons
+    for(int i=0, col=1; i<4; i++, col++) {
         buttons[i] = new QPushButton(this);
         buttons[i]->setIcon(QIcon(QPixmap(this->db->gui_config->value("buttonimg")->at(i).answer)));
         buttons[i]->setIconSize(QSize(buttons_iconsize, buttons_iconsize));
         buttons[i]->setText(this->db->gui_config->value("buttonlabels")->at(i).answer);
-        grid->addWidget(buttons[i], row, col);
+        buttons_layout->addWidget(buttons[i]);
     }
 
+    buttons_widget->setLayout(buttons_layout);
+    buttons_widget->setStyleSheet(
+                "QPushButton {"\
+                "color: white;"\
+                "font-weight: bold;"\
+                "background-color: #225588;"\
+                "border: 2 solid white;"\
+                "border-radius: 15;"\
+                "padding: 5px 5px;"\
+                "}");
+
+    //buttons connection
     QObject::connect(buttons[RELOAD], SIGNAL(clicked()), this, SLOT(clear()));
     QObject::connect(buttons[QUIT], SIGNAL(clicked()), app, SLOT(quit()));
     QObject::connect(buttons[CHECK], SIGNAL(clicked()), this, SLOT(send_to_check()));
     QObject::connect(buttons[SOLVE], SIGNAL(clicked()), this, SLOT(solve()));
 
-    main_mw_layout = new QVBoxLayout(this);
-    main_mw_layout->addLayout(tmph);
-    main_mw_layout->addSpacing(20);
-    main_mw_layout->addLayout(grid);
+    //put all together
+    mw_layout->addWidget(einstein_logo);
+    answers_and_clues_vl->addWidget(grid_widget);
+    answers_and_clues_vl->addWidget(clues_widget);
+    answers_and_clues_widget->setLayout(answers_and_clues_vl);
+    mw_layout->addWidget(answers_and_clues_widget);
+    mw_layout->addSpacing(20);
+    mw_layout->addWidget(buttons_widget);
 
-    central->setLayout(main_mw_layout);
-    this->setCentralWidget(central);
+    mw_widget->setLayout(mw_layout);
+
+    this->setCentralWidget(mw_widget);
 
     //set blank house image and reset cells indexes
     this->clear();

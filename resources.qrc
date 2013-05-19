@@ -8,5 +8,8 @@
         <file>images/solve.png</file>
         <file>xml/cell_items.xml</file>
         <file>xml/gui_config.xml</file>
+        <file>css/mwstyle.css</file>
+        <file>images/logoeinstein.png</file>
+        <file>images/mwbackground.jpg</file>
     </qresource>
 </RCC>
