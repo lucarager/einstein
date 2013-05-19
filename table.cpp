@@ -83,50 +83,61 @@ void Table::generateRandomTableFromDB() {
 
 void Table::generateClues() {
 
-    int i = 20;
+    int i = 30;
 
-    while(i--) {
-
+    while(unreferencedCellsCount > 1) {
+        qDebug() << unreferencedCellsCount;
+        qDebug() << clues->size();
         if(this->unreferencedCellsCount > 0) {
             if(this->unreferencedCellsCount == 25) {
-                generateRandomClue(getCell(-1, -1, false, -1, -1));
+                generateRandomClue(getCell(-1, -1, false, -1, -1, 1));
             } else {
-                generateRandomClue(getCell(-1, -1, true, -1, -1));
+                generateRandomClue(getCell(-1, -1, true, -1, -1, 2));
             }
         } else {
             this->solvable = true;
         }
 
     }
-    for (int i = 0; i < clues->size(); i++)
-    {
-        qDebug() << this->clues->at(i);
-    }
-
-
-    //while !solvable
-        //if unreferencedCells > 0
-            //if unreferencedCells == CellCount
-                //generateRandomClue(randomUnreferencedTile());
-            //else
-                //generateRandomClue(randomReferencedTile);
-        //else
-            //solvable = true
-            //cleanup
 
 }
 
-TableCell* Table::getCell(int row, int column, bool referenced, int exceptrow, int exceptcol) {
-    int x, y;
+TableCell* Table::getCell(int row, int column, bool referenced, int exceptrow, int exceptcol, int id) {
+    int x, y, c;
+    c = 0;
+
+    if(row > -1) {
+        if(column > -1) {
+            if(table[row][column].referenced != referenced) {
+                return NULL;
+            }
+        } else {
+            for(int i = 0; i < 5; i++) if(table[row][i].referenced != referenced) c++;
+            if(c == 5){
+                return NULL;
+            }
+        }
+    } else {
+        if(column > -1) {
+            for(int i = 0; i < 5; i++) {
+                if(table[i][column].referenced != referenced) c++;
+            }
+            if(c == 5) {
+                return NULL;
+            }
+        } else {
+            if((referenced && referencedCellsCount == 0) || (!referenced && unreferencedCellsCount == 0)) {
+                return NULL;
+            }
+        }
+    }
 
     while(true) {
         x = (row > -1) ? row : qrand()%5;
-        y = (column > -1) ? row : qrand()%5;
+        y = (column > -1) ? column : qrand()%5;
 
         if(table[x][y].referenced == referenced) {
             return &table[x][y];
-        }  else if(row > -1 && column > -1) {
-            return NULL;
         }
     }
 }
@@ -154,19 +165,19 @@ void Table::generateVerticalClue(TableCell *cell) {
     TableCell *other;
 
     if(cell->row == 0) {
-        other = getCell(1, cell->col, false, -1, -1);
+        other = getCell(1, cell->col, false, -1, -1, 3);
         if(!other) return;
     } else if(cell->row == 4) {
-        other = getCell(3, cell->col, false, -1, -1);
+        other = getCell(3, cell->col, false, -1, -1, 4);
         if(!other) return;
     } else {
         if(qrand()%2) {
-            other = getCell(cell->row + 1, cell->col, false, -1, -1);
-            if(!other) other = getCell(cell->row - 1, cell->col, false, -1, -1);
+            other = getCell(cell->row + 1, cell->col, false, -1, -1, 5);
+            if(!other) other = getCell(cell->row - 1, cell->col, false, -1, -1, 6);
             if(!other) return;
         } else {
-            other = getCell(cell->row - 1, cell->col, false, -1, -1);
-            if(!other) other = getCell(cell->row + 1, cell->col, false, -1, -1);
+            other = getCell(cell->row - 1, cell->col, false, -1, -1, 7);
+            if(!other) other = getCell(cell->row + 1, cell->col, false, -1, -1, 8);
             if(!other) return;
         }
     }
@@ -182,19 +193,19 @@ void Table::generateDirectionalClue(TableCell *cell) {
     TableCell *other;
 
     if(cell->col == 0) {
-        other = getCell(-1, 1, false, -1, -1);
+        other = getCell(-1, 1, false, -1, -1, 9);
         if(!other) return;
     } else if(cell->col == 4) {
-        other = getCell(-1, 3, false, -1, -1);
+        other = getCell(-1, 3, false, -1, -1, 10);
         if(!other) return;
     } else {
         if(qrand()%2) {
-            other = getCell(-1, cell->col + 1, false, -1, -1);
-            if(!other) other = getCell(-1, cell->col - 1, false, -1, -1);
+            other = getCell(-1, cell->col + 1, false, -1, -1, 11);
+            if(!other) other = getCell(-1, cell->col - 1, false, -1, -1, 12);
             if(!other) return;
         } else {
-            other = getCell(-1, cell->col - 1, false, -1, -1);
-            if(!other) other = getCell(-1, cell->col + 1, false, -1, -1);
+            other = getCell(-1, cell->col - 1, false, -1, -1, 14);
+            if(!other) other = getCell(-1, cell->col + 1, false, -1, -1, 13);
             if(!other) return;
         }
     }
@@ -208,32 +219,32 @@ void Table::generateDirectionalClue(TableCell *cell) {
 void Table::generateNearClue(TableCell *cell) {
     TableCell *other;
 
-    if(cell->row == 0) {
-        other = getCell(1, cell->col, false, -1, -1);
+    if(cell->col == 0) {
+        other = getCell(-1, 1, false, -1, -1, 9);
         if(!other) return;
-    } else if(cell->row == 4) {
-        other = getCell(3, cell->col, false, -1, -1);
+    } else if(cell->col == 4) {
+        other = getCell(-1, 3, false, -1, -1, 10);
         if(!other) return;
     } else {
         if(qrand()%2) {
-            other = getCell(cell->row + 1, cell->col, false, -1, -1);
-            if(!other) other = getCell(cell->row - 1, cell->col, false, -1, -1);
+            other = getCell(-1, cell->col + 1, false, -1, -1, 11);
+            if(!other) other = getCell(-1, cell->col - 1, false, -1, -1, 12);
             if(!other) return;
         } else {
-            other = getCell(cell->row - 1, cell->col, false, -1, -1);
-            if(!other) other = getCell(cell->row + 1, cell->col, false, -1, -1);
+            other = getCell(-1, cell->col - 1, false, -1, -1, 14);
+            if(!other) other = getCell(-1, cell->col + 1, false, -1, -1, 13);
             if(!other) return;
         }
     }
 
-    this->clues->append("generateBetweenClue");
+    this->clues->append(cell->answer + " è accanto a " + other->answer);
 }
 void Table::generateBetweenClue(TableCell *cell) {
     TableCell *other1, *other2;
 
     if(cell->col == 0 || cell->col == 4) return;
-    other1 = getCell(-1, cell->col-1, false, cell->row, -1);
-    other2 = getCell(-1, cell->col+1, false, cell->row, -1);
+    other1 = getCell(-1, cell->col-1, false, -1, -1, 21);
+    other2 = getCell(-1, cell->col+1, false, -1, -1, 22); //THIS MAKES IT CRASH... WHY???
 
     //fa sì che siano referenced
     this->reference(cell);
