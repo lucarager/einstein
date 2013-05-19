@@ -117,26 +117,16 @@ void Table::generateClues() {
 }
 
 TableCell* Table::getCell(int row, int column, bool referenced, int exceptrow, int exceptcol) {
-    int rand1, rand2;
+    int x, y;
+
     while(true) {
-        rand1 = qrand()%5;
-        if(row > -1) {
-            if(column > -1) {
-                if(table[row][column].referenced == referenced && table[row][column].row != exceptrow && table[row][column].col != exceptcol) {
-                    return &table[row][column];
-                }  else {
-                    return NULL;
-                }
-            } else {
-                if(table[row][rand1].referenced == referenced && table[row][rand2].row != exceptrow && table[row][rand2].col != exceptcol) return &table[row][rand1];
-            }
-        } else {
-            if(column > -1) {
-                if(table[rand1][column].referenced == referenced && table[rand1][column].row != exceptrow && table[rand1][column].col != exceptcol) return &table[rand1][column];
-            } else {
-                rand2 = qrand()%5;
-                if(table[rand1][rand2].referenced == referenced && table[rand1][rand2].row != exceptrow && table[rand1][rand2].col != exceptcol) return &table[rand1][rand2];
-            }
+        x = (row > -1) ? row : qrand()%5;
+        y = (column > -1) ? row : qrand()%5;
+
+        if(table[x][y].referenced == referenced) {
+            return &table[x][y];
+        }  else if(row > -1 && column > -1) {
+            return NULL;
         }
     }
 }
@@ -192,19 +182,19 @@ void Table::generateDirectionalClue(TableCell *cell) {
     TableCell *other;
 
     if(cell->col == 0) {
-        other = getCell(-1, 1, false, cell->row, -1);
+        other = getCell(-1, 1, false, -1, -1);
         if(!other) return;
     } else if(cell->col == 4) {
-        other = getCell(-1, 3, false, cell->row, -1);
+        other = getCell(-1, 3, false, -1, -1);
         if(!other) return;
     } else {
         if(qrand()%2) {
-            other = getCell(-1, cell->col + 1, false, cell->row, -1);
-            if(!other) other = getCell(-1, cell->col - 1, false, cell->row, -1);
+            other = getCell(-1, cell->col + 1, false, -1, -1);
+            if(!other) other = getCell(-1, cell->col - 1, false, -1, -1);
             if(!other) return;
         } else {
-            other = getCell(-1, cell->col - 1, false, cell->row, -1);
-            if(!other) other = getCell(-1, cell->col + 1, false, cell->row, -1);
+            other = getCell(-1, cell->col - 1, false, -1, -1);
+            if(!other) other = getCell(-1, cell->col + 1, false, -1, -1);
             if(!other) return;
         }
     }
