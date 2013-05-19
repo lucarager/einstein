@@ -87,10 +87,9 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     clues_widget->setLayout(clues_hl);
     clues_widget->setStyleSheet(
                 "#clues_widget {"\
-                "background-color: #C0C0C0;"\
-                "border-radius: 15"\
+                "background-color: #c5c5c5;"\
+                "border: 1px solid #aaa;"\
                 "}");
-    clues_widget->setContentsMargins(25, 25, 25, 25);
 
     int row=0, col=0;
 
@@ -128,14 +127,8 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     answers_and_clues_widget->setStyleSheet(
                 "#acw {"\
                 "background-color: white;"\
-                "border-radius: 15;"\
                 "}"\
                 "QComboBox {"\
-                "border-radius: 7;"\
-                "background-color: #225588;"\
-                "color: white;"\
-                "font-weight: bold;"\
-                "padding: 2 2;"\
                 "}");
 
     //Buttons
@@ -150,11 +143,9 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     buttons_widget->setLayout(buttons_layout);
     buttons_widget->setStyleSheet(
                 "QPushButton {"\
-                "color: white;"\
+                "color: #fff;"\
                 "font-weight: bold;"\
-                "background-color: #225588;"\
-                "border: 2 solid white;"\
-                "border-radius: 15;"\
+                "background-color: transparent;"\
                 "padding: 5px 5px;"\
                 "}");
 
