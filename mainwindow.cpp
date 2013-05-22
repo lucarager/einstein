@@ -147,6 +147,9 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
                 "font-weight: bold;"\
                 "background-color: transparent;"\
                 "padding: 5px 5px;"\
+                "}"\
+                "QPushButton:hover {"\
+                "border: 1px solid rgba(255,255,255,.8);"\
                 "}");
 
     //buttons connection

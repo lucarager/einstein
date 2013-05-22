@@ -13,7 +13,7 @@ Table::Table(DB *db) {
     qsrand((uint)time.msec());
 
     this->generateRandomTableFromDB();
-    this->generateClues();    // CRASHES HERE //maby because of the infinite loop that should be already solved
+    this->generateClues();
 }
 
 Table::~Table() {
@@ -69,21 +69,18 @@ void Table::generateRandomTableFromDB() {
         }
     }
     qDebug("FILLED");
-
-    //DEBUG purposes: visualize generated matrix, it's NOT yet used in the UI construction
     QMessageBox box;
-    QString msg = "\t-=[ Right Answers]=-\n\n";
-    for(int i=0; i<5; i++) {
-        for(int j=0; j<5; j++) msg += table[i][j].answer + " ";
-        msg += "\n";
-    }
+    QString msg =   "\t\t-=[ Benvenuto/a! ]=-\n\n"\
+                    "Ci sono cinque case, ogni casa ha cinque piani. Sparsi per le case "\
+                    "ci sono diversi oggetti, animali e persone. Ma non stanno più in ordine!\n"\
+                    "Utilizzando gli indizi che ti forniamo, sarà il tuo glorioso compito "\
+                    "di mettere ogni oggetto, animale e persona al suo posto.";
+
     box.setText(msg);
     box.exec();
 }
 
 void Table::generateClues() {
-
-    int i = 30;
 
     while(unreferencedCellsCount > 1) {
         qDebug() << unreferencedCellsCount;
@@ -236,7 +233,8 @@ void Table::generateNearClue(TableCell *cell) {
             if(!other) return;
         }
     }
-
+    this->reference(cell);
+    this->reference(other);
     this->clues->append(cell->answer + " è accanto a " + other->answer);
 }
 void Table::generateBetweenClue(TableCell *cell) {
@@ -244,7 +242,8 @@ void Table::generateBetweenClue(TableCell *cell) {
 
     if(cell->col == 0 || cell->col == 4) return;
     other1 = getCell(-1, cell->col-1, false, -1, -1, 21);
-    other2 = getCell(-1, cell->col+1, false, -1, -1, 22); //THIS MAKES IT CRASH... WHY???
+    other2 = getCell(-1, cell->col+1, false, -1, -1, 22);
+    if(!other1 || !other2) return;
 
     //fa sì che siano referenced
     this->reference(cell);
