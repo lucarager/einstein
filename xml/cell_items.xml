@@ -8,78 +8,107 @@ xml spec:
     <i>item3</i>
 </prop>
 -->
-<prop name="Colore" prefix="e'">
+<prop name="Quaderni" prefix="Il quaderno">
     <i>Blu</i>
     <i>Verde</i>
     <i>Rosso</i>
     <i>Viola</i>
     <i>Bianco</i>
     <i>Nero</i>
-    <i>Bianco</i>
+    <i>Giallo</i>
+    <i>Grigio</i>
+    <i>Rosa</i>
+    <i>Arancione</i>
 </prop>
-<prop name="Nazionalita'" prefix="e'">
-    <i>Russo</i>
-    <i>Tedesco</i>
-    <i>Italiano</i>
+<prop name="Bandiere" prefix="La bandiera">
+    <i>Russa</i>
+    <i>Tedesca</i>
+    <i>Italiana</i>
     <i>Inglese</i>
     <i>Francese</i>
-    <i>Danese</i>
-    <i>Spagnolo</i>
+    <i>Cinese</i>
+    <i>Spagnola</i>
+    <i>Olandese</i>
+    <i>Ucraina</i>
+    <i>Canadese</i>
 </prop>
-<prop name="Bevanda" prefix="beve">
-    <i>Thè</i>
-    <i>Vodka</i>
+<prop name="Bevande" prefix="Il">
+    <i>Vino</i>
+    <i>Brandy</i>
+    <i>Rum</i>
     <i>Whiskey</i>
-    <i>Birra</i>
-    <i>Gin Tonic</i>
-    <i>Acqua</i>
-    <i>CocaCola</i>
+    <i>Caffè</i>
+    <i>Cappuccino</i>
+    <i>Latte</i>
     <i>Succo</i>
 </prop>
-<prop name="Sigarette" prefix="fuma">
+<prop name="Sigarette" prefix="Le">
     <i>Marlboro</i>
     <i>Pall-mall</i>
     <i>Diva</i>
     <i>Merith</i>
     <i>Camel</i>
+    <i>Lucky Strike</i>
+    <i>MS</i>
+    <i>Davidoff</i>
+    <i>Winston</i>
 </prop>
-<prop name="Animale" prefix="ha un">
+<prop name="Animali" prefix="Il">
     <i>Criceto</i>
-    <i>Orso</i>
-    <i>Cane</i>
-    <i>Gatto</i>
-    <i>Geco</i>
+    <i>Grillo</i>
     <i>Pesce</i>
-    <i>Tartaruga</i>
+    <i>Pappagallo</i>
+    <i>Topo</i>
+    <i>Coniglio</i>
+    <i>Castoro</i>
+    <i>Canarino</i>
 </prop>
-<prop name="OS" prefix="usa">
-    <i>Windows</i>
-    <i>Linux</i>
-    <i>BSD</i>
-    <i>Solaris</i>
-    <i>NextStep</i>
-    <i>DOS</i>
-    <i>HP-UX</i>
-    <i>IOS</i>
-    <i>Android</i>
+<prop name="Cellulari" prefix="Il">
+    <i>Sony-Ericsson</i>
+    <i>Samsung</i>
+    <i>Nokia</i>
+    <i>HTC</i>
+    <i>Blackberry</i>
+    <i>Siemens</i>
 </prop>
-<prop name="Lavoro" prefix="lavora come">
-    <i>Medico</i>
-    <i>Ingegnere</i>
-    <i>Avvocato</i>
-    <i>Stilista</i>
-    <i>Attore</i>
-    <i>Astronauta</i>
-    <i>Poliziotto</i>
-    <i>Insegnante</i>
-    <i>Chef</i>
+<prop name="Computer" prefix="L'">
+    <i>Apple</i>
+    <i>Acer</i>
+    <i>Vaio</i>
+    <i>Asus</i>
+    <i>HP</i>
 </prop>
-<prop name="Linguaggio" prefix="programma in">
-    <i>C++</i>
-    <i>Fortran</i>
-    <i>Python</i>
-    <i>Java</i>
-    <i>Pascal</i>
-    <i>Assembly</i>
+<prop name="Dizionari" prefix="Il Dizionario di ">
+    <i>Inglese</i>
+    <i>Russo</i>
+    <i>Tedesco</i>
+    <i>Francese</i>
+    <i>Italiano</i>
+    <i>Cinese</i>
+    <i>Spagnolo</i>
+    <i>Giapponese</i>
+    <i></i>
+</prop>
+<prop name="Libri" prefix="Il libro di">
+    <i>Analisi</i>
+    <i>Informatica</i>
+    <i>Astrofisica</i>
+    <i>Fisica</i>
+    <i>Algoritmi</i>
+</prop>
+<prop name="Indumenti" prefix="La">
+    <i>Maglia</i>
+    <i>Camicia</i>
+    <i>Cintura</i>
+    <i>T-shirt</i>
+    <i>Parrucca</i>
+</prop>
+<prop name="Birre" prefix="La">
+    <i>Guinness</i>
+    <i>Peroni</i>
+    <i>Tennents</i>
+    <i>Moretti</i>
+    <i>Forst</i>
+    <i>Nastro Azzurro</i>
 </prop>
 </data>
