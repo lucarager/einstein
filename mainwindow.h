@@ -15,8 +15,11 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QCheckBox>
+#include <QGraphicsBlurEffect>
+#include <QKeyEvent>
 #include "db.h"
 #include "table.h"
+#include "notificationwidget.h"
 
 //pixmaps enum
 enum { WHITE, RED, BLUE, GREEN, VIOLET };
@@ -35,6 +38,7 @@ private slots:
     void clear(void);
     void send_to_check();
     void solve();
+    void notification_closed();
 
 private:
     QApplication *app;
@@ -48,7 +52,14 @@ private:
     QComboBox *cells[5][5];
     QPushButton *buttons[4];
 
+    NotificationWidget *notification;
+
     static const int buttons_iconsize=30;
+
+    bool has_active_notification;
+
+    void show_notification(QString msg);
+    void keyPressEvent(QKeyEvent *);
 };
 
 #endif // MAINWINDOW_H

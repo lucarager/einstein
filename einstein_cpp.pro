@@ -15,12 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
     mainwindow.cpp \
     db.cpp \
-    table.cpp
+    table.cpp \
+    notificationwidget.cpp
 
 HEADERS  += mainwindow.h \
     db.h \
     table.h \
-    tablecell.h
+    tablecell.h \
+    notificationwidget.h
 
 RESOURCES += \
     resources.qrc

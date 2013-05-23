@@ -54,7 +54,7 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     //clues combobox grid generetion
     int clues_displayed=0;
     while(clues_displayed != this->t->clues->size()) {
-        if(clues_displayed == 15) {
+        if(clues_displayed == this->t->clues->size() / 2 + this->t->clues->size() % 2) {
             clues_hl->addLayout(tmpv);
             tmpv = new QVBoxLayout;
         }
@@ -78,10 +78,16 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
         clues_displayed++;
     }
 
+    if(this->t->clues->size() % 2 == 1) {
+        tmp_clue_label = new QLabel(this);
+        tmpv->addWidget(tmp_clue_label);
+    }
+/*
     for(int i=clues_displayed; i<30; i++) {
         tmp_clue_label = new QLabel(this);
         tmpv->addWidget(tmp_clue_label);
     }
+    */
 
     if(clues_displayed > 15) clues_hl->addLayout(tmpv);
     clues_widget->setLayout(clues_hl);
@@ -173,6 +179,16 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
 
     //set blank house image and reset cells indexes
     this->clear();
+
+    //info label
+    QLabel *label=new QLabel(this);
+    label->setText("Per avere informazioni premi F1");
+    label->setStyleSheet("color: white;");
+    label->setAlignment(Qt::AlignCenter);
+    mw_layout->addWidget(label);
+
+    //rules notification at startup
+    this->show_notification(this->db->gui_config->value("rules")->at(0).answer);
 }
 
 MainWindow::~MainWindow()
@@ -194,30 +210,61 @@ void MainWindow::clear() {
 
 void MainWindow::send_to_check() {
     QString answers[5][5];
-    QMessageBox box;
 
-    for(int i=0; i<5; i++) {
-        for(int j=0; j<5; j++) {
+    for(int i=0; i<5; i++)
+        for(int j=0; j<5; j++)
             answers[i][j] = this->cells[i][j]->itemText(this->cells[i][j]->currentIndex());
-        }
-    }
 
-    if(t->check(answers)) {
-        box.setText("Hai risolto l'indovinello, complimenti!");
-        box.setIcon(QMessageBox::Warning);
-    }
-    else {
-        box.setText("Non è esatto. Riprova!");
-        box.setIcon(QMessageBox::Critical);
-    }
+    if(t->check(answers))
+        this->show_notification(this->db->gui_config->value("solved_ok")->at(0).answer);
+    else
+        this->show_notification(this->db->gui_config->value("solved_ko")->at(0).answer);
 
-    box.setWindowTitle("Risultato");
-    box.setWindowIcon(QIcon(db->gui_config->value("mainwindowicon")->at(0).answer));
-    box.exec();
 }
 
 void MainWindow::solve() {
     for(int i=0; i<5; i++)
         for(int j=0; j<5; j++)
             cells[i][j]->setCurrentText(t->table[i][j].answer);
+}
+
+void MainWindow::show_notification(QString msg) {
+    for(int i=0; i<5; i++)
+        for(int j=0; j<5; j++)
+            this->cells[i][j]->setEnabled(false);
+
+    for(int i=0; i<this->clues_checkbox.size(); i++)
+        this->clues_checkbox.at(i)->setEnabled(false);
+
+    for(int i=0; i<4; i++) this->buttons[i]->setEnabled(false);
+
+    QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
+    blur->setBlurRadius(10);
+    this->setGraphicsEffect(blur);
+
+    this->notification = new NotificationWidget(msg, this);
+    QObject::connect(notification, SIGNAL(closed()), this, SLOT(notification_closed()));
+    this->notification->show();
+
+    this->has_active_notification = true;
+}
+
+void MainWindow::notification_closed() {
+    for(int i=0; i<5; i++)
+        for(int j=0; j<5; j++)
+            this->cells[i][j]->setEnabled(true);
+
+    for(int i=0; i<this->clues_checkbox.size(); i++)
+        this->clues_checkbox.at(i)->setEnabled(true);
+
+    for(int i=0; i<4; i++) this->buttons[i]->setEnabled(true);
+
+    this->setGraphicsEffect(0);
+
+    this->has_active_notification = false;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *ke) {
+    if(ke->key() == Qt::Key_F1 && !has_active_notification)
+        this->show_notification(this->db->gui_config->value("rules")->at(0).answer);
 }

@@ -21,4 +21,13 @@
     <i>Risolvi</i>
     <i>Esci</i>
 </prop>
+<prop name="rules">
+    <i>Le regole:\nregola 1\nregola 2\nregola3</i>
+</prop>
+<prop name="solved_ok">
+    <i>Complimenti, hai risolto l'indovinello!</i>
+</prop>
+<prop name="solved_ko">
+    <i>Ops! Non tutti gli oggetti sono ai loro posti!</i>
+</prop>
 </data>
