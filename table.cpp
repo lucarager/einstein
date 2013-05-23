@@ -169,7 +169,7 @@ void Table::generateVerticalClue(TableCell *cell) {
     this->reference(other);
 
     //genera la risposta
-    this->clues->append(cell->answer + " è" + (other->row > cell->row ? " sopra " : " sotto ") + other->answer);
+    this->clues->append(cell->prefix + " " + cell->answer + " è" + (other->row > cell->row ? " sopra " : " sotto ") + other->prefix + " " + other->answer);
 }
 
 void Table::generateDirectionalClue(TableCell *cell) {
@@ -197,7 +197,7 @@ void Table::generateDirectionalClue(TableCell *cell) {
     this->reference(cell);
     this->reference(other);
     //genera la risposta
-    this->clues->append(cell->answer + " è" + (other->col > cell->col ? " a sinistra di " : " a destra di ") + other->answer);
+    this->clues->append(cell->prefix + " " + cell->answer + " è" + (other->col > cell->col ? " a sinistra di " : " a destra di ") + other->prefix + " " + other->answer);
 }
 
 void Table::generateNearClue(TableCell *cell) {
@@ -222,7 +222,7 @@ void Table::generateNearClue(TableCell *cell) {
     }
     this->reference(cell);
     this->reference(other);
-    this->clues->append(cell->answer + " è accanto a " + other->answer);
+    this->clues->append(cell->prefix + " " + cell->answer + " è accanto a " + other->prefix + " " + other->answer);
 }
 
 void Table::generateBetweenClue(TableCell *cell) {
@@ -238,7 +238,7 @@ void Table::generateBetweenClue(TableCell *cell) {
     this->reference(other1);
     this->reference(other2);
     //genera la risposta
-    this->clues->append(cell->answer + " è tra " + other1->answer + " e " + other2->answer);
+    this->clues->append(cell->prefix + " " + cell->answer + " è tra " + other1->prefix + " " + other1->answer + " e " + other2->prefix + " " + other2->answer);
 }
 
 void Table::reference(TableCell *cell) {
