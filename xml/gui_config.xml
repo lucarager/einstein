@@ -22,7 +22,15 @@
     <i>Esci</i>
 </prop>
 <prop name="rules">
-    <i>Le regole:\nregola 1\nregola 2\nregola3</i>
+    <i>Che disordine!\n
+    Mi daresti una mano a mettere a posto lo scaffale?\n
+    Sullo stesso ripiano devono esserci oggetti dello stesso tipo\n
+    ma bisogna anche metterli al posto giusto! \n
+    Ti scrivo qui sotto ciò che ricordo della giusta disposizione:\n
+    una volta usato un indizio puoi segnarlo e andare avanti...\n
+    Puoi premere Resetta per ricominciare da capo.\n
+    Se non ci riesci basta cliccare su Risolvi, e ci penserà la mamma.\n
+    Se invece vuoi chiamarla per controllare premi Confronta.\n </i>
 </prop>
 <prop name="solved_ok">
     <i>Complimenti, hai risolto l'indovinello!</i>

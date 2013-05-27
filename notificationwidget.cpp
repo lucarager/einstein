@@ -12,7 +12,7 @@ NotificationWidget::NotificationWidget(QString msg, QWidget *parent) : QWidget(p
     this->close_button->setObjectName("close_button");
     this->close_button->setStyleSheet(
                 "#close_button {"
-                "font-size: 15px;"\
+                "font-size: 16px;"\
                 "text-align: right;"\
                 "background: transparent;"\
                 "}"\
@@ -30,8 +30,7 @@ NotificationWidget::NotificationWidget(QString msg, QWidget *parent) : QWidget(p
     this->message->setStyleSheet(
                 "font-family: Comic Sans MS;"\
                 "font-size: 14px;"\
-                "font-weight: bold;"\
-                "margin: 50px 50px");
+                "margin: 30px 30px");
     msg.replace("\\n", "\n");
     this->message->setText(msg);
     vl->addWidget(this->message);

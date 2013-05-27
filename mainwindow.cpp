@@ -239,7 +239,7 @@ void MainWindow::show_notification(QString msg) {
     for(int i=0; i<4; i++) this->buttons[i]->setEnabled(false);
 
     QGraphicsBlurEffect *blur = new QGraphicsBlurEffect(this);
-    blur->setBlurRadius(10);
+    blur->setBlurRadius(3);
     this->setGraphicsEffect(blur);
 
     this->notification = new NotificationWidget(msg, this);
