@@ -59,7 +59,9 @@ private:
     bool has_active_notification;
 
     void show_notification(QString msg);
-    void keyPressEvent(QKeyEvent *);
+    virtual void keyPressEvent(QKeyEvent *);
+    virtual void moveEvent(QMoveEvent *);
+    virtual void paintEvent(QPaintEvent *);
 };
 
 #endif // MAINWINDOW_H

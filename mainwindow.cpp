@@ -250,6 +250,8 @@ void MainWindow::show_notification(QString msg) {
 }
 
 void MainWindow::notification_closed() {
+    delete this->notification;
+
     for(int i=0; i<5; i++)
         for(int j=0; j<5; j++)
             this->cells[i][j]->setEnabled(true);
@@ -267,4 +269,20 @@ void MainWindow::notification_closed() {
 void MainWindow::keyPressEvent(QKeyEvent *ke) {
     if(ke->key() == Qt::Key_F1 && !has_active_notification)
         this->show_notification(this->db->gui_config->value("rules")->at(0).answer);
+}
+
+void MainWindow::moveEvent(QMoveEvent *me) {    //used to translate child as parent translates
+    static int canmove_counter = 0;
+
+    if(this->has_active_notification && canmove_counter >= 2) { //need to filter 2 init events
+        this->notification->move(this->notification->pos() + me->pos() - me->oldPos());
+    } else if(canmove_counter < 2) canmove_counter++;
+}
+
+void MainWindow::paintEvent(QPaintEvent *) {    //used for init allign
+    if(this->has_active_notification)
+    this->notification->move(
+                this->geometry().x() + (this->geometry().width() - this->notification->geometry().width()) / 2,
+                this->geometry().y() + (this->geometry().height() - this->notification->geometry().height()) / 2
+                );
 }

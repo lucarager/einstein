@@ -35,6 +35,7 @@ NotificationWidget::NotificationWidget(QString msg, QWidget *parent) : QWidget(p
     this->message->setText(msg);
     vl->addWidget(this->message);
 
+    this->setLayout(vl);
 }
 
 void NotificationWidget::closeEvent(QCloseEvent *ce) {
