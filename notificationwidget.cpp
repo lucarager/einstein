@@ -36,8 +36,15 @@ NotificationWidget::NotificationWidget(QString msg, QWidget *parent) : QWidget(p
     vl->addWidget(this->message);
 
     this->setLayout(vl);
+
+    this->setFocus(Qt::OtherFocusReason);
 }
 
 void NotificationWidget::closeEvent(QCloseEvent *ce) {
     emit closed();
+}
+
+void NotificationWidget::keyPressEvent(QKeyEvent *ke) {
+    if(ke->key() == Qt::Key_Escape)
+        this->close();
 }

@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QString>
+#include <QKeyEvent>
 
 class NotificationWidget : public QWidget
 {
@@ -21,7 +22,8 @@ private:
     QPushButton *close_button;
     QLabel *message;
 
-    void closeEvent(QCloseEvent *);
+    virtual void closeEvent(QCloseEvent *);
+    virtual void keyPressEvent(QKeyEvent *);
 };
 
 #endif // NOTIFICATION_WIDGET_H

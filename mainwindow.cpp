@@ -45,11 +45,25 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     //create and visualize clues in the top part of window
     QCheckBox *tmp_clue_cbox;
     QLabel *tmp_clue_label;
+    QLabel *label;
+
+    QHBoxLayout *tmphl = new QHBoxLayout(this);
+    //developed by
+    label=new QLabel(this);
+    label->setText("Alexei '4mp3R' Liulin\nLuca 'Antariano' Rager\nFederica 'Feddie' Baiocchi\nFrancesco 'Acala' Iubatti");
+    label->setStyleSheet(
+                "color: white;"\
+                "font-size: 10px;");
+    tmphl->addWidget(label);
 
     //Einstein logo
     einstein_logo->setPixmap(QPixmap("://images/logoeinstein.png"));
     einstein_logo->setPixmap(einstein_logo->pixmap()->scaled(160, 80, Qt::KeepAspectRatio));
     einstein_logo->setAlignment(Qt::AlignCenter);
+    tmphl->addWidget(einstein_logo);
+
+    label=new QLabel(this);
+    tmphl->addWidget(label);
 
     //clues combobox grid generetion
     int clues_displayed=0;
@@ -124,6 +138,7 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     for(int i=0, row=0; i<5; i++, row++) {
         for(int j=0, col=1; j<5; j++, col++) {
             cells[i][j] = new QComboBox(this);
+            cells[i][j]->addItem("");
             cells[i][j]->addItems(t->rowstext[i]);
             grid->addWidget(cells[i][j], row, col);
         }
@@ -133,8 +148,6 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     answers_and_clues_widget->setStyleSheet(
                 "#acw {"\
                 "background-color: white;"\
-                "}"\
-                "QComboBox {"\
                 "}");
 
     //Buttons
@@ -165,7 +178,8 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     QObject::connect(buttons[SOLVE], SIGNAL(clicked()), this, SLOT(solve()));
 
     //put all together
-    mw_layout->addWidget(einstein_logo);
+    //mw_layout->addWidget(einstein_logo);
+    mw_layout->addLayout(tmphl);
     answers_and_clues_vl->addWidget(grid_widget);
     answers_and_clues_vl->addWidget(clues_widget);
     answers_and_clues_widget->setLayout(answers_and_clues_vl);
@@ -181,7 +195,7 @@ MainWindow::MainWindow(QApplication *app, QWidget *parent) : QMainWindow(parent)
     this->clear();
 
     //info label
-    QLabel *label=new QLabel(this);
+    label=new QLabel(this);
     label->setText("Per avere informazioni premi F1");
     label->setStyleSheet("color: white;");
     label->setAlignment(Qt::AlignCenter);

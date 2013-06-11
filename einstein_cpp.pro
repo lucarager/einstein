@@ -28,3 +28,5 @@ RESOURCES += \
     resources.qrc
 
 FORMS +=
+
+CONFIG += static
